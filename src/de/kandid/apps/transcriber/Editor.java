@@ -9,6 +9,9 @@ package de.kandid.apps.transcriber;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
@@ -17,6 +20,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.MutableAttributeSet;
@@ -24,12 +28,88 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
+import javax.swing.text.rtf.RTFEditorKit;
+import javax.swing.undo.UndoManager;
 
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
 import de.kandid.util.KandidException;
 
 public class Editor {
+	public static interface Listener {
+
+	}
+
+	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
+
+		public Model() {
+			super(Listener.class);
+			_edit = new Action[] {
+					def(DefaultEditorKit.cutAction, "edit-cut.png"),
+					def(DefaultEditorKit.copyAction, "edit-copy.png"),
+					def(DefaultEditorKit.pasteAction, "edit-paste.png")
+				};
+			_doc.addUndoableEditListener(new UndoableEditListener() {
+				@Override
+				public void undoableEditHappened(UndoableEditEvent e) {
+					_undos.addEdit(e.getEdit());
+				}
+			});
+		}
+
+		public void read(InputStream in) throws IOException {
+			try {
+				_doc.remove(0, _doc.getLength());
+				_kit.read(in, _doc, 0);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public void write(OutputStream out) throws IOException {
+			try {
+				_kit.write(out, _doc, 0, _doc.getLength());
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		private Action def(String name, String icon) {
+			for (final javax.swing.Action a : _kit.getActions()) {
+				if (a.getValue(Action.NAME).equals(name)) {
+					return new Action(name, icon, name, null, 0) {
+						@Override
+						public void go() {
+							a.actionPerformed(null);
+						}
+					};
+				}
+			}
+			throw new KandidException("Unknown action: " + name);
+		}
+
+		public final Action[] _edit;
+
+		public final Action _undo = new Action("Undo", "edit-undo.png", "Undo the last change", Keys.keys.c.get(KeyEvent.VK_Z), 0) {
+			@Override
+			public void go() {
+				_undos.undo();
+			}
+		};
+
+		public final Action _redo = new Action("Redo", "edit-redo.png", "Redo the last undone change", Keys.keys.c.s.get(KeyEvent.VK_Z), 0) {
+			@Override
+			public void go() {
+				_undos.redo();
+			}
+		};
+
+		public final UndoManager _undos = new UndoManager();
+		private final StyledEditorKit _kit = new RTFEditorKit();
+		public final DefaultStyledDocument _doc = new DefaultStyledDocument();
+	}
 	public static class View extends JTextPane {
 
 		public static abstract class StyledTextAction extends Action {
@@ -63,19 +143,8 @@ public class Editor {
 			}
 		}
 
-		public View(StyledDocument sd) {
-			super(sd);
-			sd.addUndoableEditListener(new UndoableEditListener() {
-				@Override
-				public void undoableEditHappened(UndoableEditEvent e) {
-
-				}
-			});
-			_edit = new Action[] {
-				def(DefaultEditorKit.cutAction, this, "edit-cut.png"),
-				def(DefaultEditorKit.copyAction, this, "edit-copy.png"),
-				def(DefaultEditorKit.pasteAction, this, "edit-paste.png")
-			};
+		public View(Model model) {
+			super(model._doc);
 			_faces = new Action[] {
 				new StyledTextAction("Bold", "format-text-bold.png", "Toggle boldface", Keys.keys.c.get(KeyEvent.VK_B), 0) {
 					@Override
@@ -115,7 +184,7 @@ public class Editor {
 				}
 			};
 			setPreferredSize(new Dimension(500, 500));
-			for (Action[] group : new Action[][]{_edit, _faces})
+			for (Action[] group : new Action[][]{model._edit, _faces})
 				for (Action a : group)
 					a.addKeysTo(this);
 		}
@@ -130,32 +199,17 @@ public class Editor {
 			return (StyledDocument) super.getDocument();
 		}
 
-		private Action def(String name, JTextPane tp, String icon) {
-			for (final javax.swing.Action a : tp.getUI().getEditorKit(tp).getActions()) {
-				if (a.getValue(Action.NAME).equals(name)) {
-					return new Action(name, icon, name, null, 0) {
-						@Override
-						public void go() {
-							a.actionPerformed(null);
-						}
-					};
-				}
-			}
-			throw new KandidException("Unknown action: " + name);
-		}
-
-		public final Action[] _edit;
 		public final Action[] _faces;
 	}
 
 	public static void main(String[] args) {
 		try {
-			DefaultStyledDocument sd = new DefaultStyledDocument();
 			JFrame f = new JFrame("EditorTest");
 			f.getContentPane().setLayout(new BorderLayout());
-			final View view = new View(sd);
+			Model model = new Model();
+			final View view = new View(model);
 			JToolBar toolbar = new JToolBar();
-			Action.addToToolbar(toolbar, view._edit);
+			Action.addToToolbar(toolbar, model._edit);
 			toolbar.addSeparator();
 			Action.addToToolbar(toolbar, view._faces);
 			f.getContentPane().add(view, BorderLayout.CENTER);

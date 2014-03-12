@@ -27,10 +27,8 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.rtf.RTFEditorKit;
 
 import de.kandid.apps.transcriber.SeekablePCMSource.MemorySource;
 import de.kandid.model.TextLineModel;
@@ -65,8 +63,6 @@ public class Transcriber {
 			super(Listener.class);
 		}
 
-		public File _file;
-
 		public final Phrase[] _phrases = new Phrase[] {
 			new Phrase("\nLos geht's\n", true),
 			new Phrase("\nInterviewer: ", true),
@@ -77,8 +73,7 @@ public class Transcriber {
 			new Phrase("\nPerson 5: ", true),
 			new Phrase("\nPerson 6: ", true)
 		};
-		public final Player.Model _player = new Player.Model();
-		public final DefaultStyledDocument _text = new DefaultStyledDocument();
+
 		public final Action _save = new Action("Save", "document-save.png", "Save the transcript", Keys.keys.c.get(KeyEvent.VK_S), 0) {
 			@Override
 			public void go() {
@@ -86,9 +81,8 @@ public class Transcriber {
 					_saveAs.perform();
 					return;
 				}
-				RTFEditorKit kit = new RTFEditorKit();
 				try {
-					kit.write(new FileOutputStream(_file), _text, 0, _text.getLength());
+					_text.write(new FileOutputStream(_file));
 				} catch (Exception e) {
 					//TODO
 					e.printStackTrace();
@@ -112,16 +106,18 @@ public class Transcriber {
 				if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				_file = fc.getSelectedFile();
-				RTFEditorKit kit = new RTFEditorKit();
 				try {
-					_text.remove(0, _text.getLength());
-					kit.read(new FileInputStream(_file), _text, 0);
+					_text.read(new FileInputStream(_file));
 				} catch (Exception e) {
 					//TODO
 					e.printStackTrace();
 				}
 			}
 		};
+
+		public final Player.Model _player = new Player.Model();
+		public final Editor.Model _text = new Editor.Model();
+		public File _file;
 	}
 
 	public static class View extends JPanel {
@@ -139,7 +135,8 @@ public class Transcriber {
 			JPanel editorControls = new JPanel(new FlowLayout(FlowLayout.LEADING));
 			editorControls.add(Action.addToToolbar(new JToolBar(), _settings));
 			editorControls.add(Action.addToToolbar(new JToolBar(), _openAudio, model._open, model._save, model._saveAs));
-			editorControls.add(Action.addToToolbar(new JToolBar(), text._edit));
+			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._undo, model._text._redo));
+			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._edit));
 			JToolBar tb = new JToolBar();
 			for (Action a : text._faces) {
 				JToggleButton b = new JToggleButton(a);
@@ -147,7 +144,10 @@ public class Transcriber {
 				tb.add(b);
 			}
 			editorControls.add(tb);
-			for (Action a : new Action[]{model._player._stop, model._player._play, model._player._back, model._player._forward})
+			for (Action a : new Action[]{
+					model._player._stop, model._player._play, model._player._back, model._player._forward,
+					model._text._undo, model._text._redo
+			})
 				a.addKeysTo(text);
 			editor.add(editorControls, BorderLayout.NORTH);
 			add(editor, BorderLayout.CENTER);
@@ -166,7 +166,7 @@ public class Transcriber {
 						try {
 							int offs = text.getCaret().getDot();
 							final Phrase phrase = model._phrases[ii];
-							model._text.insertString(offs, phrase._text, phrase._bold ? bold : normal);
+							model._text._doc.insertString(offs, phrase._text, phrase._bold ? bold : normal);
 							text.getEditorKit().getInputAttributes().addAttributes(normal);
 						} catch (BadLocationException e) {
 						}
