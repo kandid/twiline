@@ -31,6 +31,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.UndoManager;
 
+import de.kandid.model.Condition;
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
 import de.kandid.util.KandidException;
@@ -53,8 +54,10 @@ public class Editor {
 				@Override
 				public void undoableEditHappened(UndoableEditEvent e) {
 					_undos.addEdit(e.getEdit());
+					update();
 				}
 			});
+			update();
 		}
 
 		public void read(InputStream in) throws IOException {
@@ -90,12 +93,22 @@ public class Editor {
 			throw new KandidException("Unknown action: " + name);
 		}
 
+		private void update() {
+			new Condition("Nothing to undo") {@Override public boolean isTrue() {
+				return _undos.canUndo();
+			}}.applyTo(_undo);
+			new Condition("Nothing to redo") {@Override public boolean isTrue() {
+				return _undos.canRedo();
+			}}.applyTo(_redo);
+		}
+
 		public final Action[] _edit;
 
 		public final Action _undo = new Action("Undo", "edit-undo.png", "Undo the last change", Keys.keys.c.get(KeyEvent.VK_Z), 0) {
 			@Override
 			public void go() {
 				_undos.undo();
+				update();
 			}
 		};
 
@@ -103,6 +116,7 @@ public class Editor {
 			@Override
 			public void go() {
 				_undos.redo();
+				update();
 			}
 		};
 

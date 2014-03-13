@@ -52,7 +52,7 @@ public interface SeekablePCMSource {
 
 		@Override
 		public long getLength() {
-			return (long) (_data.length / _format.getFrameSize() / _format.getFrameRate() * 1000000);
+			return _data.length / _format.getFrameSize();
 		}
 
 		public final AudioFormat _format;
@@ -84,7 +84,7 @@ public interface SeekablePCMSource {
 
 	/**
 	 * Returns the length of this source in µs
-	 * @return	length of this source in µs
+	 * @return	length of this source in frames
 	 */
 	public long getLength();
 }

@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import de.kandid.apps.transcriber.SeekablePCMSource.MemorySource;
+import de.kandid.model.Condition;
 import de.kandid.ui.Action;
 
 public class Player {
@@ -50,6 +51,7 @@ public class Player {
 			};
 			_cmd = Cmd.Stop;
 			_playLoop.start();
+			update();
 		}
 
 		public void setSource(SeekablePCMSource src) throws LineUnavailableException {
@@ -61,6 +63,7 @@ public class Player {
 				_sdl.open(src.getAudioFormat());
 				_buf = new byte[_sdl.getBufferSize()];
 			}
+			update();
 		}
 
 		public void close() {
@@ -71,6 +74,7 @@ public class Player {
 				_sdl.close();
 				_sdl = null;
 			}
+			update();
 		}
 
 		public long asMillis(long frames) {
@@ -149,6 +153,13 @@ public class Player {
 			seek(getPos() + frames);
 		}
 
+		private void update() {
+			Condition trackLoaded = new Condition("No track loaded") { @Override public boolean isTrue() {
+				return _sdl != null;
+			}};
+			trackLoaded.applyTo(_play, _stop, _back, _forward);
+		}
+
 		public final Action _play = new Action("F4", "media-playback-start.png", "Play the track", keys.get(KeyEvent.VK_F4), 0) {
 			@Override
 			public void go() {
@@ -176,6 +187,7 @@ public class Player {
 				step((long)_sdl.getFormat().getFrameRate());
 			}
 		};
+		private final Action[] _actions = new Action[]{_play, _stop, _back, _forward};
 
 		private volatile Cmd _cmd;
 		private Thread _playLoop;
