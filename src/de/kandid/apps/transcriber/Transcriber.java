@@ -64,17 +64,17 @@ public class Transcriber {
 		}
 
 		public final Phrase[] _phrases = new Phrase[] {
-			new Phrase("\nLos geht's\n", true),
-			new Phrase("\nInterviewer: ", true),
-			new Phrase("\nPerson 1: ", true),
-			new Phrase("\nPerson 2: ", true),
-			new Phrase("\nPerson 3: ", true),
-			new Phrase("\nPerson 4: ", true),
-			new Phrase("\nPerson 5: ", true),
-			new Phrase("\nPerson 6: ", true)
+			new Phrase(Messages.get("Transcriber.Init0"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init1"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init2"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init3"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init4"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init5"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init6"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Transcriber.Init7"), true) //$NON-NLS-1$
 		};
 
-		public final Action _save = new Action("Save", "document-save.png", "Save the transcript", Keys.keys.c.get(KeyEvent.VK_S), 0) {
+		public final Action _save = new Action(Messages.get("Transcriber.SaveTranscript"), "document-save.png", Messages.get("Transcriber.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				if (_file == null) {
@@ -89,7 +89,7 @@ public class Transcriber {
 				}
 			}
 		};
-		public final Action _saveAs = new Action("Save As ...", "document-save-as.png", "Save the transcript under a new name", null, 0) {
+		public final Action _saveAs = new Action(Messages.get("Transcriber.SaveAs"), "document-save-as.png", Messages.get("Transcriber.SaveAs_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -99,7 +99,7 @@ public class Transcriber {
 				_save.perform();
 			}
 		};
-		public final Action _open = new Action("Open Transcript", "document-open.png", "Open a transcript", Keys.keys.c.get(KeyEvent.VK_O), 0) {
+		public final Action _open = new Action(Messages.get("Transcriber.Open"), "document-open.png", Messages.get("Transcriber.Open_long"), Keys.keys.c.get(KeyEvent.VK_O), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -160,7 +160,7 @@ public class Transcriber {
 			for (int i = 0; i < model._phrases.length; ++i) {
 				final int ii = i;
 				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
-				(new Action("Phrase " + i, "Insert phrase " + i, ks, 0) {
+				(new Action(Messages.get("Transcriber.Phrase") + i, Messages.get("Transcriber.InsertPhrase") + i, ks, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
 						try {
@@ -175,7 +175,7 @@ public class Transcriber {
 			}
 		}
 
-		public final Action _openAudio = new Action("Audio", "document-open-data.png", "Open audio file", null, 0) {
+		public final Action _openAudio = new Action(Messages.get("Transcriber.OpenAudio"), "document-open-data.png", Messages.get("Transcriber.OpenAudio_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser();
@@ -198,7 +198,7 @@ public class Transcriber {
 			}
 		};
 
-		public final Action _settings = new Action("Settings", "Adjust preferences", null, 0) {
+		public final Action _settings = new Action(Messages.get("Transcriber.Settings"), Messages.get("Transcriber.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
 				new OptionDialog(_model).setVisible(true);
@@ -211,7 +211,7 @@ public class Transcriber {
 	public static void main(String[] args) {
 		try {
 			Model m = new Model();
-			JFrame f = new JFrame("Transcriber");
+			JFrame f = new JFrame(Messages.get("Transcriber.Title")); //$NON-NLS-1$
 			f.getContentPane().add(new View(m));
 			f.pack();
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -154,40 +154,39 @@ public class Player {
 		}
 
 		private void update() {
-			Condition trackLoaded = new Condition("No track loaded") { @Override public boolean isTrue() {
+			Condition trackLoaded = new Condition(Messages.get("Player.noTrack")) { @Override public boolean isTrue() { //$NON-NLS-1$
 				return _sdl != null;
 			}};
 			trackLoaded.applyTo(_play, _stop, _back, _forward);
 		}
 
-		public final Action _play = new Action("F4", "media-playback-start.png", "Play the track", keys.get(KeyEvent.VK_F4), 0) {
+		public final Action _play = new Action("F4", "media-playback-start.png", Messages.get("Player.play"), keys.get(KeyEvent.VK_F4), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				play();
 			}
 		};
 
-		public final Action _stop = new Action("F1", "media-playback-pause.png", "Stop the track", keys.get(KeyEvent.VK_F1), 0) {
+		public final Action _stop = new Action("F1", "media-playback-pause.png", Messages.get("Player.stop"), keys.get(KeyEvent.VK_F1), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				pause();
 			}
 		};
 
-		public final Action _back = new Action("F3", "media-seek-backward.png", "Go a little back", keys.get(KeyEvent.VK_F3), 0) {
+		public final Action _back = new Action("F3", "media-seek-backward.png", Messages.get("Player.back"), keys.get(KeyEvent.VK_F3), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)-_sdl.getFormat().getFrameRate());
 			}
 		};
 
-		public final Action _forward = new Action("F5", "media-seek-forward.png", "Go a little forward", keys.get(VK_F5), 0) {
+		public final Action _forward = new Action("F5", "media-seek-forward.png", Messages.get("Player.forward"), keys.get(VK_F5), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)_sdl.getFormat().getFrameRate());
 			}
 		};
-		private final Action[] _actions = new Action[]{_play, _stop, _back, _forward};
 
 		private volatile Cmd _cmd;
 		private Thread _playLoop;

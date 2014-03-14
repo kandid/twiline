@@ -46,9 +46,9 @@ public class Editor {
 		public Model() {
 			super(Listener.class);
 			_edit = new Action[] {
-					def(DefaultEditorKit.cutAction, "edit-cut.png"),
-					def(DefaultEditorKit.copyAction, "edit-copy.png"),
-					def(DefaultEditorKit.pasteAction, "edit-paste.png")
+					def(DefaultEditorKit.cutAction, "edit-cut.png"), //$NON-NLS-1$
+					def(DefaultEditorKit.copyAction, "edit-copy.png"), //$NON-NLS-1$
+					def(DefaultEditorKit.pasteAction, "edit-paste.png") //$NON-NLS-1$
 				};
 			_doc.addUndoableEditListener(new UndoableEditListener() {
 				@Override
@@ -90,21 +90,21 @@ public class Editor {
 					};
 				}
 			}
-			throw new KandidException("Unknown action: " + name);
+			throw new KandidException("Unknown action: " + name); //$NON-NLS-1$
 		}
 
 		private void update() {
-			new Condition("Nothing to undo") {@Override public boolean isTrue() {
+			new Condition(Messages.get("Editor.NothingToUndo")) {@Override public boolean isTrue() { //$NON-NLS-1$
 				return _undos.canUndo();
 			}}.applyTo(_undo);
-			new Condition("Nothing to redo") {@Override public boolean isTrue() {
+			new Condition(Messages.get("Editor.NothingToRedo")) {@Override public boolean isTrue() { //$NON-NLS-1$
 				return _undos.canRedo();
 			}}.applyTo(_redo);
 		}
 
 		public final Action[] _edit;
 
-		public final Action _undo = new Action("Undo", "edit-undo.png", "Undo the last change", Keys.keys.c.get(KeyEvent.VK_Z), 0) {
+		public final Action _undo = new Action(Messages.get("Editor.Undo"), "edit-undo.png", Messages.get("Editor.Undo_long"), Keys.keys.c.get(KeyEvent.VK_Z), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.undo();
@@ -112,7 +112,7 @@ public class Editor {
 			}
 		};
 
-		public final Action _redo = new Action("Redo", "edit-redo.png", "Redo the last undone change", Keys.keys.c.s.get(KeyEvent.VK_Z), 0) {
+		public final Action _redo = new Action(Messages.get("Editor.Redo"), "edit-redo.png", Messages.get("Editor.Redo_long"), Keys.keys.c.s.get(KeyEvent.VK_Z), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.redo();
@@ -160,7 +160,7 @@ public class Editor {
 		public View(Model model) {
 			super(model._doc);
 			_faces = new Action[] {
-				new StyledTextAction("Bold", "format-text-bold.png", "Toggle boldface", Keys.keys.c.get(KeyEvent.VK_B), 0) {
+				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), Keys.keys.c.get(KeyEvent.VK_B), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
@@ -172,7 +172,7 @@ public class Editor {
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction("Italic", "format-text-italic.png", "Toggle italic", Keys.keys.c.get(KeyEvent.VK_I), 0) {
+				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), Keys.keys.c.get(KeyEvent.VK_I), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
@@ -184,7 +184,7 @@ public class Editor {
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction("Underline", "format-text-underline.png", "Toggle underline", Keys.keys.c.get(KeyEvent.VK_U), 0) {
+				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), Keys.keys.c.get(KeyEvent.VK_U), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();

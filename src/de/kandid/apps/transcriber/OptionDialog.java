@@ -27,9 +27,9 @@ public class OptionDialog extends JDialog {
 	public OptionDialog(final Transcriber.Model model) {
 		setLayout(new BorderLayout());
 		JPanel phrases = new JPanel(new SpringLayout());
-		phrases.add(new JLabel("Taste"));
-		phrases.add(new JLabel("Phrase"));
-		phrases.add(new JLabel("Bold"));
+		phrases.add(new JLabel(Messages.get("OptionDialog.Key"))); //$NON-NLS-1$
+		phrases.add(new JLabel(Messages.get("OptionDialog.Phrase"))); //$NON-NLS-1$
+		phrases.add(new JLabel(Messages.get("OptionDialog.Bold"))); //$NON-NLS-1$
 		final ArrayList<Transcriber.Phrase.Model> phraseModels = new ArrayList<>();
 		for (int i = 0; i < model._phrases.length; ++i) {
 			Transcriber.Phrase.Model pm = new Transcriber.Phrase.Model(model._phrases[i]);
@@ -42,7 +42,7 @@ public class OptionDialog extends JDialog {
       add(phrases, BorderLayout.CENTER);
 
       JPanel buttons = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-      buttons.add(new JButton(new Action("Save", "Save the changes", Keys.keys.c.get(KeyEvent.VK_ENTER), 0) {
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Save"), Messages.get("OptionDialog.Save_long"), Keys.keys.c.get(KeyEvent.VK_ENTER), 0) { //$NON-NLS-1$ //$NON-NLS-2$
       	@Override
       	public void go() {
       		for (int i = 0; i < phraseModels.size(); ++i) {
@@ -53,7 +53,7 @@ public class OptionDialog extends JDialog {
       		}
       	}
       }));
-      buttons.add(new JButton(new Action("Cancel", "Throw away the changes and leave", Keys.keys.get(KeyEvent.VK_ESCAPE), 0) {
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), Keys.keys.get(KeyEvent.VK_ESCAPE), 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
       		setVisible(false);
