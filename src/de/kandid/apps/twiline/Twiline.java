@@ -4,7 +4,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-package de.kandid.apps.transcriber;
+package de.kandid.apps.twiline;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,23 +19,17 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-import de.kandid.apps.transcriber.SeekablePCMSource.MemorySource;
+import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.TextLineModel;
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
 
-public class Transcriber {
+public class Twiline {
 	public static interface Listener {
 
 	}
@@ -64,17 +58,17 @@ public class Transcriber {
 		}
 
 		public final Phrase[] _phrases = new Phrase[] {
-			new Phrase(Messages.get("Transcriber.Init0"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init1"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init2"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init3"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init4"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init5"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init6"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Transcriber.Init7"), true) //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init0"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init1"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init2"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init3"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init4"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init5"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init6"), true), //$NON-NLS-1$
+			new Phrase(Messages.get("Twiline.Init7"), true) //$NON-NLS-1$
 		};
 
-		public final Action _save = new Action(Messages.get("Transcriber.SaveTranscript"), "document-save.png", Messages.get("Transcriber.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				if (_file == null) {
@@ -89,7 +83,7 @@ public class Transcriber {
 				}
 			}
 		};
-		public final Action _saveAs = new Action(Messages.get("Transcriber.SaveAs"), "document-save-as.png", Messages.get("Transcriber.SaveAs_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _saveAs = new Action(Messages.get("Twiline.SaveAs"), "document-save-as.png", Messages.get("Twiline.SaveAs_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -99,7 +93,7 @@ public class Transcriber {
 				_save.perform();
 			}
 		};
-		public final Action _open = new Action(Messages.get("Transcriber.Open"), "document-open.png", Messages.get("Transcriber.Open_long"), Keys.keys.c.get(KeyEvent.VK_O), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), Keys.keys.c.get(KeyEvent.VK_O), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -160,7 +154,7 @@ public class Transcriber {
 			for (int i = 0; i < model._phrases.length; ++i) {
 				final int ii = i;
 				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
-				(new Action(Messages.get("Transcriber.Phrase") + i, Messages.get("Transcriber.InsertPhrase") + i, ks, 0) { //$NON-NLS-1$ //$NON-NLS-2$
+				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
 						try {
@@ -175,7 +169,7 @@ public class Transcriber {
 			}
 		}
 
-		public final Action _openAudio = new Action(Messages.get("Transcriber.OpenAudio"), "document-open-data.png", Messages.get("Transcriber.OpenAudio_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _openAudio = new Action(Messages.get("Twiline.OpenAudio"), "document-open-data.png", Messages.get("Twiline.OpenAudio_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser();
@@ -198,7 +192,7 @@ public class Transcriber {
 			}
 		};
 
-		public final Action _settings = new Action(Messages.get("Transcriber.Settings"), Messages.get("Transcriber.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
+		public final Action _settings = new Action(Messages.get("Twiline.Settings"), Messages.get("Twiline.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
 				new OptionDialog(_model).setVisible(true);
@@ -211,11 +205,11 @@ public class Transcriber {
 	public static void main(String[] args) {
 		try {
 			Model m = new Model();
-			JFrame f = new JFrame(Messages.get("Transcriber.Title")); //$NON-NLS-1$
+			JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
 			f.getContentPane().add(new View(m));
 			f.pack();
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			f.setVisible(true);;
+			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			f.setVisible(true);
 		} catch (Exception e) {
 			System.out.println("Exception caught: " + e);
 			e.printStackTrace();

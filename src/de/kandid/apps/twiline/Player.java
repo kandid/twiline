@@ -4,7 +4,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-package de.kandid.apps.transcriber;
+package de.kandid.apps.twiline;
 
 import static de.kandid.ui.Keys.keys;
 import static java.awt.event.KeyEvent.VK_F5;
@@ -26,7 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import de.kandid.apps.transcriber.SeekablePCMSource.MemorySource;
+import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.Condition;
 import de.kandid.ui.Action;
 

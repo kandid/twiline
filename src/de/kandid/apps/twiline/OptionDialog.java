@@ -4,7 +4,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-package de.kandid.apps.transcriber;
+package de.kandid.apps.twiline;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,15 +24,15 @@ import de.kandid.ui.swing.SpringUtilities;
 
 public class OptionDialog extends JDialog {
 
-	public OptionDialog(final Transcriber.Model model) {
+	public OptionDialog(final Twiline.Model model) {
 		setLayout(new BorderLayout());
 		JPanel phrases = new JPanel(new SpringLayout());
 		phrases.add(new JLabel(Messages.get("OptionDialog.Key"))); //$NON-NLS-1$
 		phrases.add(new JLabel(Messages.get("OptionDialog.Phrase"))); //$NON-NLS-1$
 		phrases.add(new JLabel(Messages.get("OptionDialog.Bold"))); //$NON-NLS-1$
-		final ArrayList<Transcriber.Phrase.Model> phraseModels = new ArrayList<>();
+		final ArrayList<Twiline.Phrase.Model> phraseModels = new ArrayList<>();
 		for (int i = 0; i < model._phrases.length; ++i) {
-			Transcriber.Phrase.Model pm = new Transcriber.Phrase.Model(model._phrases[i]);
+			Twiline.Phrase.Model pm = new Twiline.Phrase.Model(model._phrases[i]);
 			phrases.add(new JLabel("Alt-" + i));
 			phrases.add(new JTextField(pm._text, null, 50));
 			phrases.add(new de.kandid.model.types.Boolean.View(pm._bold));
@@ -46,7 +46,7 @@ public class OptionDialog extends JDialog {
       	@Override
       	public void go() {
       		for (int i = 0; i < phraseModels.size(); ++i) {
-      			Transcriber.Phrase.Model pm = phraseModels.get(i);
+      			Twiline.Phrase.Model pm = phraseModels.get(i);
       			model._phrases[i]._text = pm._text.getText();
       			model._phrases[i]._bold = pm._bold.getValue();
       			setVisible(false);
