@@ -19,7 +19,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -162,7 +169,7 @@ public class Twiline {
 							final Phrase phrase = model._phrases[ii];
 							model._text._doc.insertString(offs, phrase._text, phrase._bold ? bold : normal);
 							text.getEditorKit().getInputAttributes().addAttributes(normal);
-						} catch (BadLocationException e) {
+						} catch (BadLocationException ignored) {
 						}
 					}
 				}).addKeysTo(text);
@@ -178,14 +185,8 @@ public class Twiline {
 				try {
 					AudioInputStream ais = AudioSystem.getAudioInputStream(fc.getSelectedFile());
 					MemorySource sp = new SeekablePCMSource.MemorySource(ais);
-					_model._player.setSource(sp);
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (LineUnavailableException e) {
+					_model._player.open(sp);
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

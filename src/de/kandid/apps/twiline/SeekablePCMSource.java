@@ -83,7 +83,7 @@ public interface SeekablePCMSource {
 	public AudioFormat getAudioFormat();
 
 	/**
-	 * Returns the length of this source in µs
+	 * Returns the length of this source in frames
 	 * @return	length of this source in frames
 	 */
 	public long getLength();

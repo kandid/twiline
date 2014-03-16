@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
@@ -127,8 +128,8 @@ public class Editor {
 	public static class View extends JTextPane {
 
 		public static abstract class StyledTextAction extends Action {
-			public StyledTextAction(String name, String icon, String description, KeyStroke keyStroke, int mnemonic) {
-				super(name, icon, description, keyStroke, mnemonic);
+			public StyledTextAction(String name, String icon, String description, KeyStroke keyStroke) {
+				super(name, icon, description, keyStroke, 0);
 			}
 
 			/**
@@ -160,36 +161,36 @@ public class Editor {
 		public View(Model model) {
 			super(model._doc);
 			_faces = new Action[] {
-				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), Keys.keys.c.get(KeyEvent.VK_B), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), Keys.keys.c.get(KeyEvent.VK_B)) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
 	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean bold = (StyleConstants.isBold(attr)) ? false : true;
+	                boolean bold = !javax.swing.text.StyleConstants.isBold(attr);
 	                SimpleAttributeSet sas = new SimpleAttributeSet();
 	                StyleConstants.setBold(sas, bold);
 	                setCharacterAttributes(View.this, sas, false);
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), Keys.keys.c.get(KeyEvent.VK_I), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), Keys.keys.c.get(KeyEvent.VK_I)) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
 	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean italic = (StyleConstants.isItalic(attr)) ? false : true;
+	                boolean italic = !javax.swing.text.StyleConstants.isItalic(attr);
 	                SimpleAttributeSet sas = new SimpleAttributeSet();
 	                StyleConstants.setItalic(sas, italic);
 	                setCharacterAttributes(View.this, sas, false);
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), Keys.keys.c.get(KeyEvent.VK_U), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), Keys.keys.c.get(KeyEvent.VK_U)) { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
 	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean underline = (StyleConstants.isUnderline(attr)) ? false : true;
+	                boolean underline = !javax.swing.text.StyleConstants.isUnderline(attr);
 	                SimpleAttributeSet sas = new SimpleAttributeSet();
 	                StyleConstants.setUnderline(sas, underline);
 	                setCharacterAttributes(View.this, sas, false);
@@ -228,7 +229,7 @@ public class Editor {
 			Action.addToToolbar(toolbar, view._faces);
 			f.getContentPane().add(view, BorderLayout.CENTER);
 			f.getContentPane().add(toolbar, BorderLayout.NORTH);
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			f.pack();
 			f.setVisible(true);
 		} catch (Exception e) {

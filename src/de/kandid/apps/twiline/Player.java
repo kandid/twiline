@@ -10,6 +10,8 @@ import static de.kandid.ui.Keys.keys;
 import static java.awt.event.KeyEvent.VK_F5;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -24,7 +26,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
 import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.Condition;
@@ -32,12 +35,9 @@ import de.kandid.ui.Action;
 
 public class Player {
 
-	public enum State {Playing, Stopped}
-
 	public static interface Listener {
-		public void positionChanged(State state, long µs);
 	}
-	private enum Cmd {Done, Seek, Play, Stop}
+	private enum Cmd {Done, Play, Pause}
 
 	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
 
@@ -49,12 +49,18 @@ public class Player {
 					playLoop();
 				}
 			};
-			_cmd = Cmd.Stop;
+			_cmd = Cmd.Pause;
 			_playLoop.start();
 			update();
 		}
 
-		public void setSource(SeekablePCMSource src) throws LineUnavailableException {
+		public void dispose() {
+			synchronized (_playLoop) {
+				_cmd = Cmd.Done;
+			}
+		}
+
+		public void open(SeekablePCMSource src) throws LineUnavailableException {
 			synchronized (_playLoop) {
 				close();
 				_source = src;
@@ -66,17 +72,25 @@ public class Player {
 			update();
 		}
 
+		/**
+		 * Close the stream currently played.
+		 */
 		public void close() {
 			synchronized (_playLoop) {
 				if (_sdl == null)
 					return;
-				_cmd = Cmd.Stop;
+				_cmd = Cmd.Pause;
 				_sdl.close();
 				_sdl = null;
 			}
 			update();
 		}
 
+		/**
+		 * Convert number of frames to a time in milliseconds
+		 * @param frames  number of the frames from the beginning
+		 * @return time offset in milliseconds
+		 */
 		public long asMillis(long frames) {
 			synchronized (_playLoop) {
 				if (_sdl == null)
@@ -85,6 +99,11 @@ public class Player {
 			}
 		}
 
+		/**
+		 * Return the current playing position in number of frames. You may convert
+		 * this value with {@link #asMillis(long)} to a time in ms.
+		 * @return the current position of the player
+		 */
 		public long getPos() {
 			synchronized (_playLoop) {
 				if (_sdl == null)
@@ -98,26 +117,24 @@ public class Player {
 				try {
 					for (;;) {
 						switch (_cmd) {
-							case Stop:
+							case Pause:
 								_playLoop.wait();
 								break;
 							case Play:
 								int needed = Math.min(_sdl.available(), _buf.length);
 								int read = _source.read(_buf, 0, needed);
 								if (read < 0) {
-									_cmd = Cmd.Stop;
-								} else {
-									_sdl.write(_buf, 0, read);
+									_cmd = Cmd.Pause;
+									break;
 								}
+								_sdl.write(_buf, 0, read);
 								_playLoop.wait(10);
 								break;
-
-							default:
+							case Done:
+								return;
 						}
 					}
-				} catch (Exception e) {
-				} finally {
-					_playLoop = null;
+				} catch (Exception ignored) {
 				}
 			}
 		}
@@ -144,7 +161,7 @@ public class Player {
 			synchronized (_playLoop) {
 				_sdl.stop();
 				_sdl.flush();
-				_cmd = Cmd.Stop;
+				_cmd = Cmd.Pause;
 				_playLoop.notify();
 			}
 		}
@@ -189,7 +206,7 @@ public class Player {
 		};
 
 		private volatile Cmd _cmd;
-		private Thread _playLoop;
+		private final Thread _playLoop;
 		private long _offset;
 		private long _sdlStart;
 		private SourceDataLine _sdl;
@@ -212,31 +229,21 @@ public class Player {
 			}
 			add(controls);
 			add(Box.createVerticalGlue());
-			Thread t = new Thread(getClass().getName()) {
+
+			final String format = "%02d:%02d:%02d.%03d";
+			new Timer(10, new ActionListener() {
 				@Override
-				public void run() {
-					final String format = "%02d:%02d:%02d.%03d";
-					try {
-						for (;;)	{
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									int p = (int) model.asMillis(model.getPos());
-									int millis = p % 1000;
-									p /= 1000;
-									int secs = p % 60;
-									p /= 60;
-									int mins = p % 60;
-									p /= 60;
-									time.setText(String.format(format, p, mins, secs, millis));
-								}
-							});
-							Thread.sleep(10);
-						}
-					} catch (InterruptedException e) {
-					}
+				public void actionPerformed(ActionEvent e) {
+					int p = (int) model.asMillis(model.getPos());
+					int millis = p % 1000;
+					p /= 1000;
+					int secs = p % 60;
+					p /= 60;
+					int mins = p % 60;
+					p /= 60;
+					time.setText(String.format(format, p, mins, secs, millis));
 				}
-			};
-			t.start();
+			}).start();
 		}
 	}
 
@@ -248,11 +255,11 @@ public class Player {
 			System.out.println("Length: " + sp.getLength() + "µs");
 			System.gc();
 			Model m = new Model();
-			m.setSource(sp);
+			m.open(sp);
 			JFrame f = new JFrame("Player (" + file.getName() + ")");
 			f.getContentPane().add(new View(m));
 			f.pack();
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			f.setLocation(500, 500);
 			f.setVisible(true);
 		} catch (Exception e) {
