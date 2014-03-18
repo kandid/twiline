@@ -8,6 +8,7 @@ package de.kandid.apps.twiline;
 
 import static de.kandid.ui.Keys.keys;
 import static java.awt.event.KeyEvent.VK_F5;
+import static java.awt.event.KeyEvent.VK_RIGHT;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -218,28 +219,28 @@ public class Player {
 			trackLoaded.applyTo(_play, _stop, _back, _forward);
 		}
 
-		public final Action _play = new Action("F4", "media-playback-start.png", Messages.get("Player.play"), keys.get(KeyEvent.VK_F4), 0) { //$NON-NLS-3$
+		public final Action _play = new Action(Messages.get("Player.play_s"), "media-playback-start.png", Messages.get("Player.play"), keys.a.get(KeyEvent.VK_UP), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				play();
 			}
 		};
 
-		public final Action _stop = new Action("F1", "media-playback-pause.png", Messages.get("Player.stop"), keys.get(KeyEvent.VK_F1), 0) { //$NON-NLS-3$
+		public final Action _stop = new Action(Messages.get("Player.pause_s"), "media-playback-pause.png", Messages.get("Player.pause"), keys.a.get(KeyEvent.VK_DOWN), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				pause();
 			}
 		};
 
-		public final Action _back = new Action("F3", "media-seek-backward.png", Messages.get("Player.back"), keys.get(KeyEvent.VK_F3), 0) { //$NON-NLS-3$
+		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), keys.a.get(KeyEvent.VK_LEFT), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)-_sdl.getFormat().getFrameRate());
 			}
 		};
 
-		public final Action _forward = new Action("F5", "media-seek-forward.png", Messages.get("Player.forward"), keys.get(VK_F5), 0) { //$NON-NLS-3$
+		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), keys.a.get(VK_RIGHT), 0) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)_sdl.getFormat().getFrameRate());
@@ -275,6 +276,7 @@ public class Player {
 			JPanel controls = new JPanel(new GridLayout(0, 2, 5, 5));
 			for (Action a : new Action[]{model._stop, model._play, model._back, model._forward}) {
 				JButton b = new JButton(a);
+				b.setText("");
 				b.setFocusable(false);
 				controls.add(b);
 			}

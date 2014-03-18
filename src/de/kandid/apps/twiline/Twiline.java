@@ -92,6 +92,7 @@ public class Twiline {
 				}
 			}
 		};
+
 		public final Action _saveAs = new Action(Messages.get("Twiline.SaveAs"), "document-save-as.png", Messages.get("Twiline.SaveAs_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
@@ -102,6 +103,7 @@ public class Twiline {
 				_save.perform();
 			}
 		};
+
 		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), Keys.keys.c.get(KeyEvent.VK_O), 0) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
@@ -136,11 +138,11 @@ public class Twiline {
 			_text.setPreferredSize(new Dimension(600, 600));
 			editor.add(new JScrollPane(_text), BorderLayout.CENTER);
 			JPanel editorControls = new JPanel(new FlowLayout(FlowLayout.LEADING));
-			editorControls.add(Action.addToToolbar(new JToolBar(), _settings));
-			editorControls.add(Action.addToToolbar(new JToolBar(), _openAudio, model._open, model._save, model._saveAs));
-			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._undo, model._text._redo));
-			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._edit));
 			JToolBar tb = new JToolBar();
+			Action.addToToolbar(tb, _openAudio, model._open, model._save, model._saveAs);
+			Action.addToToolbar(tb, null, _settings);
+			Action.addToToolbar(tb, null, model._text._undo, model._text._redo, null);
+			Action.addToToolbar(tb, model._text._edit);
 			for (Action a : _text._faces) {
 				JToggleButton b = new JToggleButton(a);
 				b.setText("");
@@ -171,7 +173,7 @@ public class Twiline {
 			Action.addToMenu(edit, _text._faces);
 			bar.add(edit);
 			bar.add(Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.Player")),
-					_model._player._play, _model._player._back, _model._player._forward
+					_model._player._play, _model._player._stop, _model._player._back, _model._player._forward
 			));
 			return this;
 		}
@@ -216,7 +218,7 @@ public class Twiline {
 			}
 		};
 
-		public final Action _settings = new Action(Messages.get("Twiline.Settings"), Messages.get("Twiline.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
+		public final Action _settings = new Action(Messages.get("Twiline.Settings"), "preferences.png", Messages.get("Twiline.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
 				new OptionDialog(_model).setVisible(true);
