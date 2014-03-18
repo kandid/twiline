@@ -152,8 +152,13 @@ public class Twiline {
 				a.addKeysTo(text);
 			editor.add(editorControls, BorderLayout.NORTH);
 			add(editor, BorderLayout.CENTER);
+			add(new Player.PositionView(model._player), BorderLayout.SOUTH);
 			_model = model;
 
+			makePhraseActions(model, text);
+		}
+
+		private void makePhraseActions(final Model model, final Editor.View text) {
 			final SimpleAttributeSet normal = new SimpleAttributeSet();
 			normal.addAttribute(StyleConstants.Bold, Boolean.FALSE);
 			final SimpleAttributeSet bold = new SimpleAttributeSet();

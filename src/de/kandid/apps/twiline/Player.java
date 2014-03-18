@@ -20,14 +20,19 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.BoundedRangeModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.Condition;
@@ -36,10 +41,26 @@ import de.kandid.ui.Action;
 public class Player {
 
 	public static interface Listener {
+		void trackChanged();
+		void positionChanged(long frames);
 	}
+
 	private enum Cmd {Done, Play, Pause}
 
 	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
+
+		public class Position extends DefaultBoundedRangeModel {
+
+			@Override
+			public void setValue(int n) {
+				seek(n);
+				super.setValue(n);
+			}
+
+			void updateTo(long frames) {
+				super.setValue((int) frames);
+			}
+		}
 
 		public Model() {
 			super(Listener.class);
@@ -51,12 +72,14 @@ public class Player {
 			};
 			_cmd = Cmd.Pause;
 			_playLoop.start();
+			_updater.setRepeats(true);
 			update();
 		}
 
 		public void dispose() {
 			synchronized (_playLoop) {
 				_cmd = Cmd.Done;
+				_playLoop.notify();
 			}
 		}
 
@@ -69,6 +92,8 @@ public class Player {
 				_sdl.open(src.getAudioFormat());
 				_buf = new byte[_sdl.getBufferSize()];
 			}
+			_position.setMaximum((int) _source.getLength());
+			_listeners.fire().trackChanged();
 			update();
 		}
 
@@ -83,6 +108,7 @@ public class Player {
 				_sdl.close();
 				_sdl = null;
 			}
+			_listeners.fire().trackChanged();
 			update();
 		}
 
@@ -99,6 +125,14 @@ public class Player {
 			}
 		}
 
+		public long asFrames(long millis) {
+			synchronized (_playLoop) {
+				if (_sdl == null)
+					return 0;
+				return (long)((double) millis * _sdl.getFormat().getFrameRate() / 1000);
+			}
+		}
+
 		/**
 		 * Return the current playing position in number of frames. You may convert
 		 * this value with {@link #asMillis(long)} to a time in ms.
@@ -110,6 +144,10 @@ public class Player {
 					return 0;
 				return _offset + _sdl.getLongFramePosition() - _sdlStart;
 			}
+		}
+
+		public long getLength() {
+			return _source != null ? _source.getLength() : 0;
 		}
 
 		private void playLoop() {
@@ -146,6 +184,7 @@ public class Player {
 				_offset = frames;
 				_sdlStart = _sdl.getLongFramePosition();
 			}
+			_listeners.fire().positionChanged(getPos());
 		}
 
 		public void play() {
@@ -155,6 +194,7 @@ public class Player {
 				_sdl.start();
 				_playLoop.notify();
 			}
+			_updater.start();
 		}
 
 		public void pause() {
@@ -164,6 +204,7 @@ public class Player {
 				_cmd = Cmd.Pause;
 				_playLoop.notify();
 			}
+			_updater.stop();
 		}
 
 		public void step(long frames) {
@@ -205,6 +246,16 @@ public class Player {
 			}
 		};
 
+		public final Position _position = new Position();
+
+		private Timer _updater = new Timer(50, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_position.updateTo(getPos());
+				_listeners.fire().positionChanged(getPos());
+			}
+		});
+
 		private volatile Cmd _cmd;
 		private final Thread _playLoop;
 		private long _offset;
@@ -231,9 +282,12 @@ public class Player {
 			add(Box.createVerticalGlue());
 
 			final String format = "%02d:%02d:%02d.%03d";
-			new Timer(10, new ActionListener() {
+			model.addListener(this, new Listener() {
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void trackChanged() {
+				}
+				@Override
+				public void positionChanged(long frames) {
 					int p = (int) model.asMillis(model.getPos());
 					int millis = p % 1000;
 					p /= 1000;
@@ -243,13 +297,33 @@ public class Player {
 					p /= 60;
 					time.setText(String.format(format, p, mins, secs, millis));
 				}
-			}).start();
+			});
 		}
+	}
+
+	public static class PositionView extends JSlider implements Listener {
+		public PositionView(final Model model) {
+			super(model._position);
+			_model = model;
+			model.addListener(this, this);
+			setPaintTicks(true);
+			trackChanged();
+		}
+		@Override
+		public void trackChanged() {
+			long millis = _model.asMillis(_model.getLength());
+			setMajorTickSpacing((int) _model.asFrames(60 * 1000));
+		}
+		@Override
+		public void positionChanged(long frames) {
+		}
+
+		private Model _model;
 	}
 
 	public static void main(String[] args) {
 		try {
-			File file = new File("/home/dominik/Freizeit/Music/processed02.wav");
+			File file = new File("/home/dominik/Freizeit/Music/Untitled002.wav");
 			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
 			MemorySource sp = new SeekablePCMSource.MemorySource(ais);
 			System.out.println("Length: " + sp.getLength() + "µs");
@@ -257,7 +331,10 @@ public class Player {
 			Model m = new Model();
 			m.open(sp);
 			JFrame f = new JFrame("Player (" + file.getName() + ")");
-			f.getContentPane().add(new View(m));
+			Box view = new Box(BoxLayout.PAGE_AXIS);
+			view.add(new View(m));
+			view.add(new PositionView(m));
+			f.getContentPane().add(view);
 			f.pack();
 			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			f.setLocation(500, 500);

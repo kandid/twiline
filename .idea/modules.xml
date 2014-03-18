@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" filepath="$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TimerTest/TimerTest.iml" filepath="$PROJECT_DIR$/../TimerTest/TimerTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/Twiline.iml" filepath="$PROJECT_DIR$/Twiline.iml" />
     </modules>
   </component>
