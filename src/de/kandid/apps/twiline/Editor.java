@@ -47,9 +47,9 @@ public class Editor {
 		public Model() {
 			super(Listener.class);
 			_edit = new Action[] {
-					def(DefaultEditorKit.cutAction, "edit-cut.png"), //$NON-NLS-1$
-					def(DefaultEditorKit.copyAction, "edit-copy.png"), //$NON-NLS-1$
-					def(DefaultEditorKit.pasteAction, "edit-paste.png") //$NON-NLS-1$
+					def(DefaultEditorKit.cutAction, "edit-cut.png", Keys.keys.c.get(KeyEvent.VK_X)), //$NON-NLS-1$
+					def(DefaultEditorKit.copyAction, "edit-copy.png", Keys.keys.c.get(KeyEvent.VK_C)), //$NON-NLS-1$
+					def(DefaultEditorKit.pasteAction, "edit-paste.png", Keys.keys.c.get(KeyEvent.VK_V)) //$NON-NLS-1$
 				};
 			_doc.addUndoableEditListener(new UndoableEditListener() {
 				@Override
@@ -80,10 +80,10 @@ public class Editor {
 			}
 		}
 
-		private Action def(String name, String icon) {
+		private Action def(String name, String icon, KeyStroke key) {
 			for (final javax.swing.Action a : _kit.getActions()) {
 				if (a.getValue(Action.NAME).equals(name)) {
-					return new Action(name, icon, name, null, 0) {
+					return new Action(Messages.get("Editor." + name), icon, name, key, 0) {
 						@Override
 						public void go() {
 							a.actionPerformed(null);

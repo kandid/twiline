@@ -163,18 +163,25 @@ public class Twiline {
 		}
 
 		public View addToMenu(JMenuBar bar) {
-			bar.add(Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.File")),
+			JMenu file = Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.File")),
 					_model._open, _model._save, _model._saveAs, null, _openAudio,
 					null, _settings
-			));
+			);
+			file.setMnemonic(Messages.get("Twiline.Menu.File.mnemonic").charAt(0));
+			bar.add(file);
+
 			JMenu edit = new JMenu(Messages.get("Twiline.Menu.Edit"));
 			Action.addToMenu(edit, _model._text._edit);
 			Action.addToMenu(edit, null, _model._text._undo, _model._text._redo, null);
 			Action.addToMenu(edit, _text._faces);
+			edit.setMnemonic(Messages.get("Twiline.Menu.Edit.mnemonic").charAt(0));
 			bar.add(edit);
-			bar.add(Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.Player")),
+
+			JMenu player = Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.Player")),
 					_model._player._play, _model._player._stop, _model._player._back, _model._player._forward
-			));
+			);
+			player.setMnemonic(Messages.get("Twiline.Menu.Player.mnemonic").charAt(0));
+			bar.add(player);
 			return this;
 		}
 
