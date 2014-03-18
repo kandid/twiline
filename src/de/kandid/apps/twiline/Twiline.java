@@ -21,6 +21,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
@@ -130,16 +132,16 @@ public class Twiline {
 			add(player, BorderLayout.WEST);
 
 			JPanel editor = new JPanel(new BorderLayout());
-			final Editor.View text = new Editor.View(model._text);
-			text.setPreferredSize(new Dimension(600, 600));
-			editor.add(new JScrollPane(text), BorderLayout.CENTER);
+			_text = new Editor.View(model._text);
+			_text.setPreferredSize(new Dimension(600, 600));
+			editor.add(new JScrollPane(_text), BorderLayout.CENTER);
 			JPanel editorControls = new JPanel(new FlowLayout(FlowLayout.LEADING));
 			editorControls.add(Action.addToToolbar(new JToolBar(), _settings));
 			editorControls.add(Action.addToToolbar(new JToolBar(), _openAudio, model._open, model._save, model._saveAs));
 			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._undo, model._text._redo));
 			editorControls.add(Action.addToToolbar(new JToolBar(), model._text._edit));
 			JToolBar tb = new JToolBar();
-			for (Action a : text._faces) {
+			for (Action a : _text._faces) {
 				JToggleButton b = new JToggleButton(a);
 				b.setText("");
 				tb.add(b);
@@ -149,13 +151,29 @@ public class Twiline {
 					model._player._stop, model._player._play, model._player._back, model._player._forward,
 					model._text._undo, model._text._redo
 			})
-				a.addKeysTo(text);
+				a.addKeysTo(_text);
 			editor.add(editorControls, BorderLayout.NORTH);
 			add(editor, BorderLayout.CENTER);
 			add(new Player.PositionView(model._player), BorderLayout.SOUTH);
 			_model = model;
 
-			makePhraseActions(model, text);
+			makePhraseActions(model, _text);
+		}
+
+		public View addToMenu(JMenuBar bar) {
+			bar.add(Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.File")),
+					_model._open, _model._save, _model._saveAs, null, _openAudio,
+					null, _settings
+			));
+			JMenu edit = new JMenu(Messages.get("Twiline.Menu.Edit"));
+			Action.addToMenu(edit, _model._text._edit);
+			Action.addToMenu(edit, null, _model._text._undo, _model._text._redo, null);
+			Action.addToMenu(edit, _text._faces);
+			bar.add(edit);
+			bar.add(Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.Player")),
+					_model._player._play, _model._player._back, _model._player._forward
+			));
+			return this;
 		}
 
 		private void makePhraseActions(final Model model, final Editor.View text) {
@@ -206,13 +224,17 @@ public class Twiline {
 		};
 
 		private final Model _model;
+		private final Editor.View _text;
 	}
 
 	public static void main(String[] args) {
 		try {
 			Model m = new Model();
 			JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
-			f.getContentPane().add(new View(m));
+			f.getContentPane().setLayout(new BorderLayout());
+			JMenuBar bar = new JMenuBar();
+			f.getContentPane().add(bar, BorderLayout.NORTH);
+			f.getContentPane().add(new View(m).addToMenu(bar), BorderLayout.CENTER);
 			f.pack();
 			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			f.setVisible(true);
