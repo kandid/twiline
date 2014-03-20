@@ -95,7 +95,7 @@ public class Editor {
 		private Action def(String name, String icon, KeyStroke key) {
 			for (final javax.swing.Action a : _kit.getActions()) {
 				if (a.getValue(Action.NAME).equals(name)) {
-					return new Action(Messages.get("Editor." + name), icon, name, key, 0) {
+					return new Action(Messages.get("Editor." + name), icon, name, key) {
 						@Override
 						public void go() {
 							a.actionPerformed(null);
@@ -117,7 +117,7 @@ public class Editor {
 
 		public final Action[] _edit;
 
-		public final Action _undo = new Action(Messages.get("Editor.Undo"), "edit-undo.png", Messages.get("Editor.Undo_long"), Keys.keys.c.get(KeyEvent.VK_Z), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _undo = new Action(Messages.get("Editor.Undo"), "edit-undo.png", Messages.get("Editor.Undo_long"), Keys.keys.c.get(KeyEvent.VK_Z)) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.undo();
@@ -125,7 +125,7 @@ public class Editor {
 			}
 		};
 
-		public final Action _redo = new Action(Messages.get("Editor.Redo"), "edit-redo.png", Messages.get("Editor.Redo_long"), Keys.keys.c.s.get(KeyEvent.VK_Z), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _redo = new Action(Messages.get("Editor.Redo"), "edit-redo.png", Messages.get("Editor.Redo_long"), Keys.keys.c.s.get(KeyEvent.VK_Z)) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.redo();
@@ -141,7 +141,7 @@ public class Editor {
 
 		public static abstract class StyledTextAction extends Action {
 			public StyledTextAction(String name, String icon, String description, KeyStroke keyStroke) {
-				super(name, icon, description, keyStroke, 0);
+				super(name, icon, description, keyStroke);
 			}
 
 			/**
@@ -231,7 +231,7 @@ public class Editor {
 				int offs = getCaret().getDot();
 				getDocument().insertString(offs, text, attributes);
 				getEditorKit().getInputAttributes().addAttributes(_normal);
-			} catch (BadLocationException e) {
+			} catch (BadLocationException ignored) {
 			}
 		}
 

@@ -91,7 +91,7 @@ public class Twiline {
 			new Phrase(Messages.get("Twiline.Init7"), true) //$NON-NLS-1$
 		};
 
-		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S)) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				if (_file == null) {
@@ -107,7 +107,7 @@ public class Twiline {
 			}
 		};
 
-		public final Action _saveAs = new Action(Messages.get("Twiline.SaveAs"), "document-save-as.png", Messages.get("Twiline.SaveAs_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _saveAs = new Action(Messages.get("Twiline.SaveAs"), "document-save-as.png", Messages.get("Twiline.SaveAs_long"), null) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -118,7 +118,7 @@ public class Twiline {
 			}
 		};
 
-		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), Keys.keys.c.get(KeyEvent.VK_O), 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), Keys.keys.c.get(KeyEvent.VK_O)) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -179,25 +179,22 @@ public class Twiline {
 		}
 
 		public View addToMenu(JMenuBar bar) {
-			JMenu file = Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.File")),
+			JMenu file = Action.addToMenu(new JMenu(Action.menu(Messages.get("Twiline.Menu.File"))),
 					_model._open, _model._save, _model._saveAs, null, _openAudio,
 					null, _settings
 			);
-			file.setMnemonic(Messages.get("Twiline.Menu.File.mnemonic").charAt(0));
 			bar.add(file);
 
-			JMenu edit = new JMenu(Messages.get("Twiline.Menu.Edit"));
+			JMenu edit = new JMenu(Action.menu(Messages.get("Twiline.Menu.Edit")));
 			Action.addToMenu(edit, _model._text._edit);
 			Action.addToMenu(edit, null, _model._text._undo, _model._text._redo, null);
 			Action.addToMenu(edit, _text._faces);
 			Action.addToMenu(edit, null, _insertTimestamp);
-			edit.setMnemonic(Messages.get("Twiline.Menu.Edit.mnemonic").charAt(0));
 			bar.add(edit);
 
-			JMenu player = Action.addToMenu(new JMenu(Messages.get("Twiline.Menu.Player")),
+			JMenu player = Action.addToMenu(new JMenu(Action.menu(Messages.get("Twiline.Menu.Player"))),
 					_model._player._play, _model._player._stop, _model._player._back, _model._player._forward
 			);
-			player.setMnemonic(Messages.get("Twiline.Menu.Player.mnemonic").charAt(0));
 			bar.add(player);
 			return this;
 		}
@@ -206,7 +203,7 @@ public class Twiline {
 			for (int i = 0; i < model._phrases.length; ++i) {
 				final int ii = i;
 				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
-				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks, 0) { //$NON-NLS-1$ //$NON-NLS-2$
+				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
 						final Phrase phrase = model._phrases[ii];
@@ -216,7 +213,7 @@ public class Twiline {
 			}
 		}
 
-		public final Action _openAudio = new Action(Messages.get("Twiline.OpenAudio"), "document-open-data.png", Messages.get("Twiline.OpenAudio_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _openAudio = new Action(Messages.get("Twiline.OpenAudio"), "document-open-data.png", Messages.get("Twiline.OpenAudio_long"), null) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser();
@@ -233,14 +230,14 @@ public class Twiline {
 			}
 		};
 
-		public final Action _settings = new Action(Messages.get("Twiline.Settings"), "preferences.png", Messages.get("Twiline.Settings_long"), null, 0) { //$NON-NLS-1$ //$NON-NLS-2$
+		public final Action _settings = new Action(Messages.get("Twiline.Settings"), "preferences.png", Messages.get("Twiline.Settings_long"), null) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
 				new OptionDialog(_model).setVisible(true);
 			}
 		};
 
-		public final Action _insertTimestamp = new Action(Messages.get("Twiline.InsertTimestamp_s"), "insert-timestamp.png", Messages.get("Twiline.InsertTimestamp"), Keys.keys.c.get(KeyEvent.VK_T), 0) {
+		public final Action _insertTimestamp = new Action(Messages.get("Twiline.InsertTimestamp_s"), "insert-timestamp.png", Messages.get("Twiline.InsertTimestamp"), Keys.keys.c.get(KeyEvent.VK_T)) {
 			@Override
 			public void go() {
 				String ts = Player.formatTime((int)_model._player.asMillis(_model._player.getPos()));

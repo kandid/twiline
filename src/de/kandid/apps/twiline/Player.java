@@ -233,28 +233,28 @@ public class Player {
 			trackLoaded.applyTo(_play, _stop, _back, _forward);
 		}
 
-		public final Action _play = new Action(Messages.get("Player.play_s"), "media-playback-start.png", Messages.get("Player.play"), keys.a.get(KeyEvent.VK_UP), 0) { //$NON-NLS-3$
+		public final Action _play = new Action(Messages.get("Player.play_s"), "media-playback-start.png", Messages.get("Player.play"), keys.a.get(KeyEvent.VK_UP)) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				play();
 			}
 		};
 
-		public final Action _stop = new Action(Messages.get("Player.pause_s"), "media-playback-pause.png", Messages.get("Player.pause"), keys.a.get(KeyEvent.VK_DOWN), 0) { //$NON-NLS-3$
+		public final Action _stop = new Action(Messages.get("Player.pause_s"), "media-playback-pause.png", Messages.get("Player.pause"), keys.a.get(KeyEvent.VK_DOWN)) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				pause();
 			}
 		};
 
-		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), keys.a.get(KeyEvent.VK_LEFT), 0) { //$NON-NLS-3$
+		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), keys.a.get(KeyEvent.VK_LEFT)) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)-_sdl.getFormat().getFrameRate());
 			}
 		};
 
-		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), keys.a.get(VK_RIGHT), 0) { //$NON-NLS-3$
+		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), keys.a.get(VK_RIGHT)) { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)_sdl.getFormat().getFrameRate());

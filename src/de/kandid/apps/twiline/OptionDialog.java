@@ -25,24 +25,20 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
-
-import javax.swing.JTextPane;
 import de.kandid.ui.swing.SpringLayout;
 import de.kandid.ui.swing.SpringUtilities;
 
 public class OptionDialog extends JDialog {
 
 	public OptionDialog(final Twiline.Model model) {
-		setLayout(new BorderLayout());
+		JPanel panel = new JPanel(new BorderLayout());
 		JPanel phrases = new JPanel(new SpringLayout());
 		phrases.add(new JLabel(Messages.get("OptionDialog.Key"))); //$NON-NLS-1$
 		phrases.add(new JLabel(Messages.get("OptionDialog.Phrase"))); //$NON-NLS-1$
@@ -56,10 +52,10 @@ public class OptionDialog extends JDialog {
 			phraseModels.add(pm);
 		}
       SpringUtilities.makeCompactGrid(phrases, model._phrases.length + 1, 3, 0, 0, 5, 5);
-      add(phrases, BorderLayout.CENTER);
+      panel.add(phrases, BorderLayout.CENTER);
 
       JPanel buttons = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Save"), Messages.get("OptionDialog.Save_long"), Keys.keys.c.get(KeyEvent.VK_ENTER), 0) { //$NON-NLS-1$ //$NON-NLS-2$
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Save"), Messages.get("OptionDialog.Save_long"), Keys.keys.c.get(KeyEvent.VK_ENTER)) { //$NON-NLS-1$ //$NON-NLS-2$
       	@Override
       	public void go() {
       		for (int i = 0; i < phraseModels.size(); ++i) {
@@ -69,15 +65,15 @@ public class OptionDialog extends JDialog {
       			setVisible(false);
       		}
       	}
-      }));
-      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), Keys.keys.get(KeyEvent.VK_ESCAPE), 0) { //$NON-NLS-1$ //$NON-NLS-2$
+      }.addKeysTo(panel)));
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), Keys.keys.get(KeyEvent.VK_ESCAPE)) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
       		setVisible(false);
 			}
-		}));
-      add(buttons, BorderLayout.SOUTH);
-
+		}.addKeysTo(panel)));
+      panel.add(buttons, BorderLayout.SOUTH);
+		add(panel);
       pack();
 	}
 }
