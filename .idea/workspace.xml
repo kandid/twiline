@@ -10,15 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="aca25ebb-1234-4bef-a2b7-d1cc09287bc3" name="Default" comment="*fixed: show names for the edit actions in the main menu&#10;*fixed: show mnemonics in the main menu">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/insert-timestamp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/preferences.png" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.eml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" afterPath="$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="F4.iws" />
@@ -109,7 +105,7 @@
       <file leaf-file-name="Twiline.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="242" column="65" selection-start="8640" selection-end="8640" vertical-scroll-proportion="0.6013889" vertical-offset="2283" max-vertical-offset="3206">
+            <state line="242" column="65" selection-start="8640" selection-end="8640" vertical-scroll-proportion="0.48472223" vertical-offset="2367" max-vertical-offset="3206">
               <folding />
             </state>
           </provider>
@@ -801,7 +797,11 @@
       <created>1395274155109</created>
       <updated>1395274155109</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="*added: insert timestamp into the text">
+      <created>1395315617105</created>
+      <updated>1395315617105</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -883,7 +883,8 @@
     <MESSAGE value="*added: branch folder" />
     <MESSAGE value="*tagged: first upload of the binary to sourceforge" />
     <MESSAGE value="*added: insert timestamp for the editor" />
-    <option name="LAST_COMMIT_MESSAGE" value="*added: insert timestamp for the editor" />
+    <MESSAGE value="*added: insert timestamp into the text" />
+    <option name="LAST_COMMIT_MESSAGE" value="*added: insert timestamp into the text" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1199,7 +1200,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="242" column="65" selection-start="8640" selection-end="8640" vertical-scroll-proportion="0.6013889" vertical-offset="2283" max-vertical-offset="3206">
+        <state line="242" column="65" selection-start="8640" selection-end="8640" vertical-scroll-proportion="0.48472223" vertical-offset="2367" max-vertical-offset="3206">
           <folding />
         </state>
       </provider>
