@@ -1,9 +1,21 @@
 /*
- * Created on 11.03.2014
+ *  Copyright (C) 2014  Dominikus Diesch
  *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package de.kandid.apps.twiline;
 
 import java.awt.BorderLayout;
@@ -13,12 +25,17 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
+
+import javax.swing.JTextPane;
 import de.kandid.ui.swing.SpringLayout;
 import de.kandid.ui.swing.SpringUtilities;
 
@@ -34,7 +51,7 @@ public class OptionDialog extends JDialog {
 		for (int i = 0; i < model._phrases.length; ++i) {
 			Twiline.Phrase.Model pm = new Twiline.Phrase.Model(model._phrases[i]);
 			phrases.add(new JLabel("Alt-" + i));
-			phrases.add(new JTextField(pm._text, null, 50));
+			phrases.add(new JScrollPane(new JTextArea(pm._text, null, 2, 50)));
 			phrases.add(new de.kandid.model.types.Boolean.View(pm._bold));
 			phraseModels.add(pm);
 		}
