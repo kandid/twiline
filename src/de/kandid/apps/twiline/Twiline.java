@@ -45,6 +45,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import com.jgoodies.looks.Options;
+
 import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.TextLineModel;
 import de.kandid.ui.Action;
@@ -155,6 +157,7 @@ public class Twiline {
 			Action.addToToolbar(tb, null, _settings);
 			Action.addToToolbar(tb, null, model._text._undo, model._text._redo, null);
 			Action.addToToolbar(tb, model._text._edit);
+			Action.addToToolbar(tb, null, _insertTimestamp);
 			for (Action a : _text._faces) {
 				JToggleButton b = new JToggleButton(a);
 				b.setText("");
@@ -163,7 +166,8 @@ public class Twiline {
 			editorControls.add(tb);
 			for (Action a : new Action[]{
 					model._player._stop, model._player._play, model._player._back, model._player._forward,
-					model._text._undo, model._text._redo
+					model._text._undo, model._text._redo,
+					_insertTimestamp
 			})
 				a.addKeysTo(_text);
 			editor.add(editorControls, BorderLayout.NORTH);
@@ -186,6 +190,7 @@ public class Twiline {
 			Action.addToMenu(edit, _model._text._edit);
 			Action.addToMenu(edit, null, _model._text._undo, _model._text._redo, null);
 			Action.addToMenu(edit, _text._faces);
+			Action.addToMenu(edit, null, _insertTimestamp);
 			edit.setMnemonic(Messages.get("Twiline.Menu.Edit.mnemonic").charAt(0));
 			bar.add(edit);
 
@@ -198,23 +203,14 @@ public class Twiline {
 		}
 
 		private void makePhraseActions(final Model model, final Editor.View text) {
-			final SimpleAttributeSet normal = new SimpleAttributeSet();
-			normal.addAttribute(StyleConstants.Bold, Boolean.FALSE);
-			final SimpleAttributeSet bold = new SimpleAttributeSet();
-			bold.addAttribute(StyleConstants.Bold, Boolean.TRUE);
 			for (int i = 0; i < model._phrases.length; ++i) {
 				final int ii = i;
 				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
 				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks, 0) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
-						try {
-							int offs = text.getCaret().getDot();
-							final Phrase phrase = model._phrases[ii];
-							model._text._doc.insertString(offs, phrase._text, phrase._bold ? bold : normal);
-							text.getEditorKit().getInputAttributes().addAttributes(normal);
-						} catch (BadLocationException ignored) {
-						}
+						final Phrase phrase = model._phrases[ii];
+						_text.insertText(phrase._text, phrase._bold ? _text._bold : _text._normal);
 					}
 				}).addKeysTo(text);
 			}
@@ -241,6 +237,14 @@ public class Twiline {
 			@Override
 			public void go() {
 				new OptionDialog(_model).setVisible(true);
+			}
+		};
+
+		public final Action _insertTimestamp = new Action(Messages.get("Twiline.InsertTimestamp_s"), "insert-timestamp.png", Messages.get("Twiline.InsertTimestamp"), Keys.keys.c.get(KeyEvent.VK_T), 0) {
+			@Override
+			public void go() {
+				String ts = Player.formatTime((int)_model._player.asMillis(_model._player.getPos()));
+				_text.insertText("#" + ts + "#", _text._normal);
 			}
 		};
 

@@ -283,7 +283,7 @@ public class Player {
 	public static class View extends JPanel {
 		public View(final Model model) {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			final JLabel time = new JLabel("00:00:00.000");
+			final JLabel time = new JLabel(formatTime(0));
 			time.setFont(getFont().deriveFont(18f));
 			time.setHorizontalAlignment(JLabel.TRAILING);
 			add(time);
@@ -297,21 +297,13 @@ public class Player {
 			add(controls);
 			add(Box.createVerticalGlue());
 
-			final String format = "%02d:%02d:%02d.%03d";
 			model.addListener(this, new Listener() {
 				@Override
 				public void trackChanged() {
 				}
 				@Override
 				public void positionChanged(long frames) {
-					int p = (int) model.asMillis(model.getPos());
-					int millis = p % 1000;
-					p /= 1000;
-					int secs = p % 60;
-					p /= 60;
-					int mins = p % 60;
-					p /= 60;
-					time.setText(String.format(format, p, mins, secs, millis));
+					time.setText(formatTime((int) model.asMillis(model.getPos())));
 				}
 			});
 		}
@@ -335,6 +327,17 @@ public class Player {
 		}
 
 		private Model _model;
+	}
+
+	public static String formatTime(int millis) {
+		int tens = millis % 1000 / 100;
+		millis /= 1000;
+		int secs = millis % 60;
+		millis /= 60;
+		int mins = millis % 60;
+		millis /= 60;
+		final String format = "%02d:%02d:%02d-%1d";
+		return String.format(format, millis, mins, secs, tens);
 	}
 
 	public static void main(String[] args) {

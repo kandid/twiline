@@ -226,7 +226,29 @@ public class Editor {
 			return (StyledDocument) super.getDocument();
 		}
 
+		public void insertText(String text, AttributeSet attributes) {
+			try {
+				int offs = getCaret().getDot();
+				getDocument().insertString(offs, text, attributes);
+				getEditorKit().getInputAttributes().addAttributes(_normal);
+			} catch (BadLocationException e) {
+			}
+		}
+
 		public final Action[] _faces;
+
+		public final SimpleAttributeSet _normal = new SimpleAttributeSet() {
+			{
+				addAttribute(StyleConstants.Bold, Boolean.FALSE);
+			}
+		};
+
+		public final SimpleAttributeSet _bold = new SimpleAttributeSet() {
+			{
+				addAttribute(StyleConstants.Bold, Boolean.TRUE);
+			}
+		};
+
 	}
 
 	public static void main(String[] args) {
