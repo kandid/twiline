@@ -21,6 +21,8 @@ package de.kandid.apps.twiline;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -29,7 +31,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.xml.stream.XMLStreamException;
 
+import de.kandid.environment.Places;
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
 import de.kandid.ui.swing.SpringLayout;
@@ -44,14 +48,14 @@ public class OptionDialog extends JDialog {
 		phrases.add(new JLabel(Messages.get("OptionDialog.Phrase"))); //$NON-NLS-1$
 		phrases.add(new JLabel(Messages.get("OptionDialog.Bold"))); //$NON-NLS-1$
 		final ArrayList<Twiline.Phrase.Model> phraseModels = new ArrayList<>();
-		for (int i = 0; i < model._phrases.length; ++i) {
-			Twiline.Phrase.Model pm = new Twiline.Phrase.Model(model._phrases[i]);
+		for (int i = 0; i < model._value._phrases.length; ++i) {
+			Twiline.Phrase.Model pm = new Twiline.Phrase.Model(model._value._phrases[i]);
 			phrases.add(new JLabel("Alt-" + i));
 			phrases.add(new JScrollPane(new JTextArea(pm._text, null, 2, 50)));
 			phrases.add(new de.kandid.model.types.Boolean.View(pm._bold));
 			phraseModels.add(pm);
 		}
-      SpringUtilities.makeCompactGrid(phrases, model._phrases.length + 1, 3, 0, 0, 5, 5);
+      SpringUtilities.makeCompactGrid(phrases, model._value._phrases.length + 1, 3, 0, 0, 5, 5);
       panel.add(phrases, BorderLayout.CENTER);
 
       JPanel buttons = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -60,11 +64,18 @@ public class OptionDialog extends JDialog {
       	public void go() {
       		for (int i = 0; i < phraseModels.size(); ++i) {
       			Twiline.Phrase.Model pm = phraseModels.get(i);
-      			model._phrases[i]._text = pm._text.getText();
-      			model._phrases[i]._bold = pm._bold.getValue();
-      			setVisible(false);
+      			model._value._phrases[i]._text = pm._text.getText();
+      			model._value._phrases[i]._bold = pm._bold.getValue();
       		}
-      	}
+		      try {
+			      XmlIo.write(new File(Places.get().getConfigWrite("de.kandid.twiline"), "config.xml"), model._value);
+		      } catch (XMLStreamException e) {
+			      e.printStackTrace();
+		      } catch (FileNotFoundException e) {
+			      e.printStackTrace();
+		      }
+		      setVisible(false);
+	      }
       }.addKeysTo(panel)));
       buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), Keys.keys.get(KeyEvent.VK_ESCAPE)) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override

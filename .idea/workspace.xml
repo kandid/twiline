@@ -5,19 +5,22 @@
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="Twiline Jar" />
+      <artifact name="Twiline-0.0.3" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="aca25ebb-1234-4bef-a2b7-d1cc09287bc3" name="Default" comment="*changed: &#10;*added: mnemonics for the Actions">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/environment" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/environment/Places.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/XmlIo.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.eml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/IndentStreamWriter.java" afterPath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/IndentStreamWriter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties" afterPath="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLCursor.java" afterPath="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLCursor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="2f04caca-9cfd-4b4a-9f5c-ad608f7e2946" name="Rejected commit: Default" comment="*changed: set Action mnemonics derived from the &quot;name&quot; property&#10;*removed: constructor building always an accelerator with ctrl key">
@@ -102,83 +105,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="OptionDialog.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="23" selection-start="2792" selection-end="2792" vertical-scroll-proportion="0.0" vertical-offset="64" max-vertical-offset="966">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="27" selection-start="3237" selection-end="3237" vertical-scroll-proportion="0.0" vertical-offset="798" max-vertical-offset="4494">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="messages.properties" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties">
-          <provider editor-type-id="ResourceBundle">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="0" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.06930693" vertical-offset="441" max-vertical-offset="1148">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="messages_de.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties">
-          <provider editor-type-id="ResourceBundle">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="2715" selection-end="2715" vertical-scroll-proportion="-22.68" vertical-offset="469" max-vertical-offset="1176">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Twiline.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="239" column="194" selection-start="8561" selection-end="8561" vertical-scroll-proportion="0.0" vertical-offset="2048" max-vertical-offset="3164">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Action.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/Action.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="14" selection-start="4331" selection-end="4331" vertical-scroll-proportion="0.0" vertical-offset="1452" max-vertical-offset="2394">
+            <state line="95" column="35" selection-start="2960" selection-end="2960" vertical-scroll-proportion="0.0" vertical-offset="893" max-vertical-offset="2352">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="class#View#0;class#Twiline#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractFile.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/model/types/AbstractFile.java">
+      <file leaf-file-name="XmlIo.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/XmlIo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="138" column="0" selection-start="3973" selection-end="3973" vertical-scroll-proportion="0.0" vertical-offset="1177" max-vertical-offset="2100">
+            <state line="76" column="77" selection-start="2548" selection-end="2548" vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="966">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/LogUI.java">
+      <file leaf-file-name="Places.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/environment/Places.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="13" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1330">
+            <state line="90" column="42" selection-start="2783" selection-end="2783" vertical-scroll-proportion="0.37738246" vertical-offset="613" max-vertical-offset="2268">
               <folding />
             </state>
           </provider>
@@ -210,11 +161,15 @@
         <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java" />
         <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/model/types/AbstractFile.java" />
         <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/LogUI.java" />
-        <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" />
         <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java" />
         <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties" />
         <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/Action.java" />
+        <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/IndentStreamWriter.java" />
+        <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLCursor.java" />
         <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java" />
+        <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/XmlIo.java" />
+        <option value="$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java" />
+        <option value="$PROJECT_DIR$/../Kandid-Library/src/de/kandid/environment/Places.java" />
       </list>
     </option>
   </component>
@@ -222,10 +177,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="603" />
-    <option name="y" value="50" />
-    <option name="width" value="948" />
-    <option name="height" value="1083" />
+    <option name="x" value="651" />
+    <option name="y" value="16" />
+    <option name="width" value="930" />
+    <option name="height" value="1140" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -296,8 +251,8 @@
       <sortByType ProjectPane="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -306,70 +261,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Twiline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Transcriber" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Twiline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Transcriber" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="twiline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Resource Bundle 'messages'" />
-              <option name="myItemType" value="com.intellij.lang.properties.projectView.ResourceBundleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Twiline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Transcriber" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="twiline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.26603577" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.Java" />
-    <property name="last_opened_file_path" value="/mnt/ramdisk/audiostu/JMF-2.1.1e/lib/multiplayer.jar!/" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="/mnt/ramdisk/Image-0024.jpeg" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -380,25 +285,25 @@
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.18787879" />
     <property name="dynamic.classpath" value="false" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="50" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="45" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="59" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="57" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="64" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="62" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="50" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="45" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="670" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="650" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="54" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="52" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="61" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="59" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="64" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="62" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="54" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="52" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="660" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="634" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="LayoutCode.rearrangeEntries" value="false" />
     <property name="LayoutCode.rearrangeEntriesJava" value="true" />
@@ -407,118 +312,8 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="extract.method.default.visibility" value="private" />
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-          <PATH vcs="svn" revision="1619">$PROJECT_DIR$</PATH>
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
+    <property name="Groovy.Shell.LastModule" value="Twiline" />
+    <property name="SearchEverywhereHistory" value="" />
   </component>
   <component name="RunManager" selected="Application.Twiline">
     <configuration default="false" name="audiost" type="Application" factoryName="Application" temporary="true">
@@ -565,8 +360,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="TimerTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dek.timer.TimerTest" />
+    <configuration default="false" name="Twiline" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.kandid.apps.twiline.Twiline" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -575,7 +370,29 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="TimerTest" />
+      <module name="Twiline" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Transcriber" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gui.Transcriber" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file:///mnt/ramdisk/minitrans/MiniTrans" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="MiniTrans" />
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -600,28 +417,6 @@
       <envs />
       <patterns />
       <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Twiline" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="de.kandid.apps.twiline.Twiline" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="Twiline" />
-      <envs />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -755,17 +550,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.audiost" />
       <item index="1" class="java.lang.String" itemvalue="Application.Player" />
-      <item index="2" class="java.lang.String" itemvalue="Application.TimerTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.All in kandidlib-emitter" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Twiline" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Twiline" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Transcriber" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in kandidlib-emitter" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.Twiline" />
-        <item index="1" class="java.lang.String" itemvalue="Application.Player" />
-        <item index="2" class="java.lang.String" itemvalue="Application.audiost" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.All in kandidlib-emitter" />
-        <item index="4" class="java.lang.String" itemvalue="Application.TimerTest" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Transcriber" />
+        <item index="2" class="java.lang.String" itemvalue="Application.Player" />
+        <item index="3" class="java.lang.String" itemvalue="Application.audiost" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.All in kandidlib-emitter" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -878,7 +673,11 @@
       <created>1395315728105</created>
       <updated>1395315728105</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="*added: mnemonics for the Actions&#10;*added: accelerator keys for terminating the OptionDialog">
+      <created>1395353807105</created>
+      <updated>1395353807105</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -902,35 +701,35 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="603" y="50" width="948" height="1083" extended-state="0" />
+    <frame x="651" y="16" width="930" height="1140" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21289062" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744282" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1523046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28794178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24865447" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16112266" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35328755" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299389" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22586873" sideWeight="0.27493605" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21101871" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23596674" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20868516" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23547094" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22661123" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24038461" sideWeight="0.7562642" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.239819" sideWeight="0.7562642" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905138" sideWeight="0.8379531" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="142" y="554" width="420" height="588" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25831485" sideWeight="0.7250639" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19022869" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.239819" sideWeight="0.7250639" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18940137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="438" y="108" width="862" height="909" />
+      <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20868516" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2495238" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2495238" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28794178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25230768" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -963,7 +762,8 @@
     <MESSAGE value="*added: insert timestamp into the text" />
     <MESSAGE value="*fixed: commit some missing icons" />
     <MESSAGE value="*changed: set Action mnemonics derived from the &quot;name&quot; property&#10;*removed: constructor building always an accelerator with ctrl key" />
-    <option name="LAST_COMMIT_MESSAGE" value="*changed: set Action mnemonics derived from the &quot;name&quot; property&#10;*removed: constructor building always an accelerator with ctrl key" />
+    <MESSAGE value="*added: mnemonics for the Actions&#10;*added: accelerator keys for terminating the OptionDialog" />
+    <option name="LAST_COMMIT_MESSAGE" value="*added: mnemonics for the Actions&#10;*added: accelerator keys for terminating the OptionDialog" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -981,26 +781,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/text/StyledEditorKit.java">
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/model/types/AbstractFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="16" selection-start="3668" selection-end="3668" vertical-scroll-proportion="-5.992343" vertical-offset="4963" max-vertical-offset="12082" />
+        <state line="138" column="0" selection-start="3973" selection-end="3973" vertical-scroll-proportion="0.0" vertical-offset="1932" max-vertical-offset="2408" />
       </provider>
     </entry>
-    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/AbstractButton.java">
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/LogUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1097" column="16" selection-start="39619" selection-end="39619" vertical-scroll-proportion="0.28324872" vertical-offset="14169" max-vertical-offset="42336" />
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/sun/misc/Unsafe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1002" column="23" selection-start="40085" selection-end="40145" vertical-scroll-proportion="0.46401227" vertical-offset="13347" max-vertical-offset="14000" />
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/undo/UndoManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="501" column="0" selection-start="18143" selection-end="18143" vertical-scroll-proportion="0.0" vertical-offset="6419" max-vertical-offset="8442">
-          <folding />
-        </state>
+        <state line="36" column="13" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="1806" />
       </provider>
     </entry>
     <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/undo/UndoableEdit.java">
@@ -1063,11 +851,6 @@
         <state line="21" column="22" selection-start="914" selection-end="914" vertical-scroll-proportion="0.08527919" vertical-offset="0" max-vertical-offset="985" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLCursor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="289" column="4" selection-start="9071" selection-end="9071" vertical-scroll-proportion="-0.5116751" vertical-offset="4046" max-vertical-offset="5460" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/util/LangUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="13" selection-start="820" selection-end="820" vertical-scroll-proportion="0.056112226" vertical-offset="0" max-vertical-offset="998" />
@@ -1103,11 +886,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/SeekablePCMSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="770" selection-end="770" vertical-scroll-proportion="0.23847695" vertical-offset="0" max-vertical-offset="1414" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Messages.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="771" selection-end="771" vertical-scroll-proportion="0.25583756" vertical-offset="0" max-vertical-offset="985" />
@@ -1115,174 +893,67 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/swing/SpringUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="63" selection-start="1595" selection-end="1595" vertical-scroll-proportion="0.0" vertical-offset="392" max-vertical-offset="4088">
-          <folding />
-        </state>
+        <state line="28" column="63" selection-start="1595" selection-end="1595" vertical-scroll-proportion="0.0" vertical-offset="392" max-vertical-offset="4088" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../kandidlib-emitter/src/de/kandid/model/Emitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="13" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="4256">
-          <folding>
-            <element signature="e#0#13386#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="66" column="13" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="4256" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../kandidlib-emitter/test/de/kandid/model/EmitterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="11" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2100">
-          <folding />
-        </state>
+        <state line="34" column="11" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2100" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.eml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="756">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/config/OptionBool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="17" selection-start="1818" selection-end="1818" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1414">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="756" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="13" selection-start="1473" selection-end="1473" vertical-scroll-proportion="-0.46085012" vertical-offset="276" max-vertical-offset="1274">
-          <folding />
-        </state>
+        <state line="43" column="13" selection-start="1473" selection-end="1473" vertical-scroll-proportion="-0.46085012" vertical-offset="276" max-vertical-offset="1274" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="3" selection-start="2374" selection-end="2374" vertical-scroll-proportion="0.7516779" vertical-offset="0" max-vertical-offset="1022">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/ramdisk/audiostu/frontpanels/CompressorFrontPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="393" selection-end="393" vertical-scroll-proportion="0.16144976" vertical-offset="0" max-vertical-offset="4018">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/ramdisk/audiostu/apps/guitartuner/Tuner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="294" selection-end="294" vertical-scroll-proportion="0.1383855" vertical-offset="0" max-vertical-offset="4942">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/ramdisk/audiostu/craigl/jmf20/media/datasink/intfc/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="37" selection-start="1141" selection-end="1141" vertical-scroll-proportion="0.0" vertical-offset="588" max-vertical-offset="3010">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/ramdisk/audiostu/craigl/test/AudioTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="13" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0" vertical-offset="798" max-vertical-offset="5194">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/ramdisk/audiostu/craigl/winplayer/WinPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="39" selection-start="813" selection-end="813" vertical-scroll-proportion="0.50199205" vertical-offset="0" max-vertical-offset="2170">
-          <folding />
-        </state>
+        <state line="71" column="3" selection-start="2374" selection-end="2374" vertical-scroll-proportion="0.7516779" vertical-offset="0" max-vertical-offset="1022" />
       </provider>
     </entry>
     <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/JMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="11" selection-start="6191" selection-end="6191" vertical-scroll-proportion="0.3908206" vertical-offset="1399" max-vertical-offset="21938">
-          <folding />
-        </state>
+        <state line="173" column="11" selection-start="6191" selection-end="6191" vertical-scroll-proportion="0.3908206" vertical-offset="1399" max-vertical-offset="21938" />
       </provider>
     </entry>
     <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/Action.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="331" column="31" selection-start="15576" selection-end="15576" vertical-scroll-proportion="0.3504868" vertical-offset="4032" max-vertical-offset="5208">
-          <folding />
-        </state>
+        <state line="331" column="31" selection-start="15576" selection-end="15576" vertical-scroll-proportion="0.3504868" vertical-offset="4032" max-vertical-offset="5208" />
       </provider>
     </entry>
     <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/java/util/regex/Matcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="341" column="0" selection-start="12207" selection-end="12207" vertical-scroll-proportion="0.31756756" vertical-offset="4217" max-vertical-offset="17360">
-          <folding />
-        </state>
+        <state line="341" column="0" selection-start="12207" selection-end="12207" vertical-scroll-proportion="0.31756756" vertical-offset="4217" max-vertical-offset="17360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Editor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="233" column="46" selection-start="8562" selection-end="8562" vertical-scroll-proportion="0.33333334" vertical-offset="2358" max-vertical-offset="3248">
-          <folding />
-        </state>
+        <state line="233" column="46" selection-start="8562" selection-end="8562" vertical-scroll-proportion="0.33333334" vertical-offset="2358" max-vertical-offset="3248" />
       </provider>
     </entry>
     <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/swing/JDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="957" column="21" selection-start="37947" selection-end="37947" vertical-scroll-proportion="0.352" vertical-offset="12744" max-vertical-offset="17710">
-          <folding>
-            <element signature="e#35054#35055#0" expanded="true" />
-            <element signature="e#35100#35101#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="957" column="21" selection-start="37947" selection-end="37947" vertical-scroll-proportion="0.352" vertical-offset="12744" max-vertical-offset="17710" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/model/types/AbstractFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="0" selection-start="3973" selection-end="3973" vertical-scroll-proportion="0.0" vertical-offset="1177" max-vertical-offset="2100">
-          <folding />
-        </state>
+        <state line="138" column="0" selection-start="3973" selection-end="3973" vertical-scroll-proportion="0.0" vertical-offset="1177" max-vertical-offset="2100" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/LogUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="13" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1330">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="194" selection-start="8561" selection-end="8561" vertical-scroll-proportion="0.0" vertical-offset="2048" max-vertical-offset="3164">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="27" selection-start="3237" selection-end="3237" vertical-scroll-proportion="0.0" vertical-offset="798" max-vertical-offset="4494">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="23" selection-start="2792" selection-end="2792" vertical-scroll-proportion="0.0" vertical-offset="64" max-vertical-offset="966">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="14" selection-start="4331" selection-end="4331" vertical-scroll-proportion="0.0" vertical-offset="1452" max-vertical-offset="2394">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="36" column="13" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1330" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/messages_de.properties">
@@ -1290,9 +961,7 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="2715" selection-end="2715" vertical-scroll-proportion="-22.68" vertical-offset="469" max-vertical-offset="1176">
-          <folding />
-        </state>
+        <state line="74" column="0" selection-start="2715" selection-end="2715" vertical-scroll-proportion="0.0" vertical-offset="469" max-vertical-offset="1176" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/messages.properties">
@@ -1300,7 +969,100 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.06930693" vertical-offset="441" max-vertical-offset="1148">
+        <state line="35" column="0" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.0" vertical-offset="441" max-vertical-offset="1148" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/config/PropertiesSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="17" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.0953462" vertical-offset="0" max-vertical-offset="1722" />
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/javax/xml/stream/XMLStreamWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="17" selection-start="8131" selection-end="8131" vertical-scroll-proportion="2.437956" vertical-offset="0" max-vertical-offset="7112" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/config/OptionInt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="4" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.3600823" vertical-offset="0" max-vertical-offset="972">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/config/OptionBool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.23253389" vertical-offset="127" max-vertical-offset="1414">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/SeekablePCMSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="7" selection-start="964" selection-end="974" vertical-scroll-proportion="-0.13786009" vertical-offset="218" max-vertical-offset="1190">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="0" selection-start="3781" selection-end="3781" vertical-scroll-proportion="0.014285714" vertical-offset="1302" max-vertical-offset="4494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/XMLCursor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="48" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.08571429" vertical-offset="0" max-vertical-offset="5460">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/ui/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="0" selection-start="3222" selection-end="3222" vertical-scroll-proportion="0.0" vertical-offset="774" max-vertical-offset="2226" />
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/icedtea-7/src.zip!/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="357" column="0" selection-start="15949" selection-end="15949" vertical-scroll-proportion="0.33225808" vertical-offset="4302" max-vertical-offset="30268">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/OptionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="2921" selection-end="2921" vertical-scroll-proportion="0.41290322" vertical-offset="234" max-vertical-offset="854">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/xml/IndentStreamWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="15" selection-start="2930" selection-end="2930" vertical-scroll-proportion="0.33225808" vertical-offset="718" max-vertical-offset="2982">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/Twiline.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="95" column="35" selection-start="2960" selection-end="2960" vertical-scroll-proportion="0.0" vertical-offset="893" max-vertical-offset="2352">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#View#0;class#Twiline#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/kandid/apps/twiline/XmlIo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="77" selection-start="2548" selection-end="2548" vertical-scroll-proportion="0.0" vertical-offset="542" max-vertical-offset="1372">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Kandid-Library/src/de/kandid/environment/Places.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="42" selection-start="2783" selection-end="2783" vertical-scroll-proportion="0.37738246" vertical-offset="613" max-vertical-offset="2268">
           <folding />
         </state>
       </provider>
@@ -1316,7 +1078,7 @@
               <type id="library" />
             </show-content>
           </artifact-editor>
-          <last-edited>Twiline Jar</last-edited>
+          <last-edited>Twiline-0.0.3</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1377,7 +1139,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>audiostu</last-edited>
+          <last-edited>MiniTrans</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1402,6 +1164,17 @@
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
           <last-edited>avalon-logkit-1.2</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -24,6 +24,7 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -41,13 +42,10 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
-import com.jgoodies.looks.Options;
+import javax.xml.stream.XMLStreamException;
 
 import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
+import de.kandid.environment.Places;
 import de.kandid.model.TextLineModel;
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
@@ -67,6 +65,9 @@ public class Twiline {
 			public final de.kandid.model.types.Boolean.Model _bold = new de.kandid.model.types.Boolean.Model();
 		}
 
+		public Phrase() {
+		}
+
 		public Phrase(String text, boolean bold) {
 			_text = text;
 			_bold = bold;
@@ -76,20 +77,10 @@ public class Twiline {
 	}
 
 	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
-		public Model() {
+		public Model(Twiline twiline) {
 			super(Listener.class);
+			_value = twiline;
 		}
-
-		public final Phrase[] _phrases = new Phrase[] {
-			new Phrase(Messages.get("Twiline.Init0"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init1"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init2"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init3"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init4"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init5"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init6"), true), //$NON-NLS-1$
-			new Phrase(Messages.get("Twiline.Init7"), true) //$NON-NLS-1$
-		};
 
 		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S)) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
@@ -137,6 +128,7 @@ public class Twiline {
 		public final Player.Model _player = new Player.Model();
 		public final Editor.Model _text = new Editor.Model();
 		public File _file;
+		public Twiline _value;
 	}
 
 	public static class View extends JPanel {
@@ -200,13 +192,13 @@ public class Twiline {
 		}
 
 		private void makePhraseActions(final Model model, final Editor.View text) {
-			for (int i = 0; i < model._phrases.length; ++i) {
+			for (int i = 0; i < model._value._phrases.length; ++i) {
 				final int ii = i;
 				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
 				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
-						final Phrase phrase = model._phrases[ii];
+						final Phrase phrase = model._value._phrases[ii];
 						_text.insertText(phrase._text, phrase._bold ? _text._bold : _text._normal);
 					}
 				}).addKeysTo(text);
@@ -249,9 +241,35 @@ public class Twiline {
 		private final Editor.View _text;
 	}
 
+	public Twiline() {
+		this(new Phrase[] {
+				new Phrase(Messages.get("Twiline.Init0"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init1"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init2"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init3"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init4"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init5"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init6"), true), //$NON-NLS-1$
+				new Phrase(Messages.get("Twiline.Init7"), true) //$NON-NLS-1$
+		});
+	}
+
+	public Twiline(Phrase[] phrases) {
+		_phrases = phrases;
+	}
+	public final Phrase[] _phrases;
+
 	public static void main(String[] args) {
 		try {
-			Model m = new Model();
+
+			Twiline twiline = new Twiline();
+			try {
+				twiline = XmlIo.read(new File(Places.get().getConfigRead("de.kandid.twiline")[0], "config.xml"));
+			} catch (Exception e) {
+				// Nothing to do. Use the default
+				e.printStackTrace();
+			}
+			Model m = new Model(twiline);
 			JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
 			f.getContentPane().setLayout(new BorderLayout());
 			JMenuBar bar = new JMenuBar();
