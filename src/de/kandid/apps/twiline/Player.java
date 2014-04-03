@@ -19,7 +19,6 @@
 package de.kandid.apps.twiline;
 
 import static de.kandid.ui.Keys.keys;
-import static java.awt.event.KeyEvent.VK_F5;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 
 import java.awt.GridLayout;
@@ -27,13 +26,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
-import javax.swing.BoundedRangeModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultBoundedRangeModel;
@@ -44,10 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.model.Condition;
 import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
@@ -195,9 +190,14 @@ public class Player {
 		public void seek(long frames) {
 			frames = Math.max(0, frames);
 			synchronized (_playLoop) {
-				_source.seek(frames);
-				_offset = frames;
-				_sdlStart = _sdl.getLongFramePosition();
+				try {
+					_source.seek(frames);
+					_offset = frames;
+					_sdlStart = _sdl.getLongFramePosition();
+				} catch (IOException e) {
+					//TODO
+					e.printStackTrace();
+				}
 			}
 			_listeners.fire().positionChanged(getPos());
 		}
@@ -205,7 +205,12 @@ public class Player {
 		public void play() {
 			synchronized (_playLoop) {
 				_cmd = Cmd.Play;
-				_source.seek(getPos());
+				try {
+					_source.seek(getPos());
+				} catch (IOException e) {
+					// TODO
+					e.printStackTrace();
+				}
 				_sdl.start();
 				_playLoop.notify();
 			}
@@ -343,8 +348,9 @@ public class Player {
 	public static void main(String[] args) {
 		try {
 			File file = new File("/home/dominik/Freizeit/Music/Untitled002.wav");
-			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-			MemorySource sp = new SeekablePCMSource.MemorySource(ais);
+//			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+//			MemorySource sp = new SeekablePCMSource.MemorySource(ais);
+			SeekablePCMSource.PcmFile sp = new SeekablePCMSource.PcmFile(file);
 			System.out.println("Length: " + sp.getLength() + "µs");
 			System.gc();
 			Model m = new Model();

@@ -24,12 +24,9 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFileChooser;
@@ -42,9 +39,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
-import javax.xml.stream.XMLStreamException;
 
-import de.kandid.apps.twiline.SeekablePCMSource.MemorySource;
 import de.kandid.environment.Places;
 import de.kandid.model.TextLineModel;
 import de.kandid.ui.Action;
@@ -212,8 +207,7 @@ public class Twiline {
 				if (fc.showOpenDialog(View.this) != JFileChooser.APPROVE_OPTION)
 					return;
 				try {
-					AudioInputStream ais = AudioSystem.getAudioInputStream(fc.getSelectedFile());
-					MemorySource sp = new SeekablePCMSource.MemorySource(ais);
+					SeekablePCMSource.PcmFile sp = new SeekablePCMSource.PcmFile(fc.getSelectedFile());
 					_model._player.open(sp);
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 					// TODO Auto-generated catch block

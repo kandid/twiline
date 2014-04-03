@@ -19,10 +19,18 @@
 package de.kandid.apps.twiline;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.sun.istack.internal.NotNull;
 
 public interface SeekablePCMSource {
 
@@ -72,6 +80,113 @@ public interface SeekablePCMSource {
 		private int _pos;
 	}
 
+	public static class PcmFile implements SeekablePCMSource {
+
+		private static class MarkStream extends InputStream {
+
+			public MarkStream(File file) throws FileNotFoundException {
+				_raf = new RandomAccessFile(file, "r");
+			}
+
+			public long getFilePointer() throws IOException {
+				return _raf.getFilePointer();
+			}
+
+			public void seek(long pos) throws IOException {
+				_raf.seek(pos);
+			}
+
+			public long length() throws IOException {
+				return _raf.length();
+			}
+
+			public long skip(long n) throws IOException {
+				_raf.seek(_raf.getFilePointer() + n);
+				return n;
+			}
+
+			@Override
+			public int available() throws IOException {
+				return (int) Math.min(_raf.length() - _raf.getFilePointer(), Integer.MAX_VALUE);
+			}
+
+			@Override
+			public synchronized void mark(int readlimit) {
+				try {
+					_mark = _raf.getFilePointer();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			@Override
+			public synchronized void reset() throws IOException {
+				_raf.seek(_mark);
+			}
+
+			@Override
+			protected void finalize() throws Throwable {
+				super.finalize();
+			}
+
+			@Override
+			public boolean markSupported() {
+				return true;
+			}
+
+			@Override
+			public int read() throws IOException {
+				return _raf.read();
+			}
+
+			@Override
+			public int read(@NotNull byte[] b, int off, int len) throws IOException {
+				return _raf.read(b, off, len);
+			}
+
+			@Override
+			public void close() throws IOException {
+				_raf.close();
+			}
+
+			private final RandomAccessFile _raf;
+			private long _mark;
+		}
+
+		public PcmFile(File in) throws IOException, UnsupportedAudioFileException {
+			_ms = new MarkStream(in);
+			AudioInputStream as = AudioSystem.getAudioInputStream(_ms);
+			_format = as.getFormat();
+			_offset = _ms.getFilePointer();
+			_frames = (_ms.length() - _offset) / _format.getFrameSize();
+		}
+
+		@Override
+		public int read(byte[] buf, int offset, int length) throws IOException {
+			return _ms.read(buf, offset, length);
+		}
+
+		@Override
+		public void seek(long frames) throws IOException {
+			_ms.seek(_offset + frames * _format.getFrameSize());
+		}
+
+		@Override
+		public AudioFormat getAudioFormat() {
+			return _format;
+		}
+
+		@Override
+		public long getLength() {
+			return _frames;
+		}
+
+		private MarkStream _ms;
+		public final AudioFormat _format;
+		private long _offset;
+		private long _frames;
+	}
+
 	/**
 	 * Read the data from the current position
 	 * @param buf		the buffer to place the data into
@@ -79,14 +194,14 @@ public interface SeekablePCMSource {
 	 * @param length	the requested length of the data in bytes
 	 * @return the number of bytes actually readss
 	 */
-	public int read(byte[] buf, int offset, int length);
+	public int read(byte[] buf, int offset, int length) throws IOException;
 
 	/**
 	 * Seek to the position specified in frames from the start of
 	 * the clip.
 	 * @param frames	the position to seek to in frames
 	 */
-	public void seek(long frames);
+	public void seek(long frames) throws IOException;
 
 	/**
 	 * Returns the format of the data
