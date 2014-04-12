@@ -1,0 +1,60 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+version = '0.0.4'
+group = 'de.kandid'
+def shortName = 'twiline'
+def theName = 'apps.' + shortName
+
+idea { module {
+    outputDir = file('build/classes/main')
+    testOutputDir = file('build/classes/test')
+}}
+
+eclipse {
+    classpath {defaultOutputDir = file('build/eclipse/classes')}
+    project {natures 'org.eclipse.jdt.groovy.core.groovyNature', 'org.springsource.ide.eclipse.gradle.core.nature'}
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceSets {
+    main {java {srcDir 'src'} resources {srcDir 'src'}}
+}
+
+dependencies {
+    compile group: 'de.kandid', name: 'kandidlib', version: '0.4.0'
+}
+
+jar {baseName = theName}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    baseName = theName
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task dist(type: Jar, dependsOn: classes) {
+    baseName = shortName
+	 def deps = files(configurations.compile)
+    from {deps.collect {zipTree(it)}}
+	 from jar.source
+    destinationDir = file('build')
+	 def classPath = archiveName;
+	 deps.each {classPath += " " + it.getName()}
+    manifest {
+		 attributes 'Main-Class' : 'de.kandid.apps.twiline.Twiline'
+		 attributes 'Class-Path' : classPath
+	 }
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}

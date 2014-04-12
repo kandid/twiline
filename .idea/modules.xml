@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" filepath="$PROJECT_DIR$/../Kandid-Library/Kandid-Library.iml" />
-      <module fileurl="file:///mnt/ramdisk/minitrans/MiniTrans/MiniTrans.iml" filepath="/mnt/ramdisk/minitrans/MiniTrans/MiniTrans.iml" />
       <module fileurl="file://$PROJECT_DIR$/Twiline.iml" filepath="$PROJECT_DIR$/Twiline.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.iml" filepath="$PROJECT_DIR$/../kandidlib-emitter/kandidlib-emitter.iml" />
     </modules>
   </component>
 </project>
