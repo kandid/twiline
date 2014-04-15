@@ -22,6 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,7 +40,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.WindowConstants;
 
 import de.kandid.environment.Places;
 import de.kandid.model.TextLineModel;
@@ -75,6 +76,12 @@ public class Twiline {
 		public Model(Twiline twiline) {
 			super(Listener.class);
 			_value = twiline;
+			_player.setValue(_value._player);
+		}
+
+		public Twiline getValue() {
+			_player.getValue();
+			return _value;
 		}
 
 		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S)) { //$NON-NLS-1$ //$NON-NLS-3$
@@ -251,7 +258,8 @@ public class Twiline {
 	public Twiline(Phrase[] phrases) {
 		_phrases = phrases;
 	}
-	public final Phrase[] _phrases;
+	public Phrase[] _phrases;
+	public Player _player = new Player();
 
 	public static void main(String[] args) {
 		try {
@@ -263,7 +271,7 @@ public class Twiline {
 				// Nothing to do. Use the default
 				e.printStackTrace();
 			}
-			Model m = new Model(twiline);
+			final Model m = new Model(twiline);
 			final JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
 			f.getContentPane().setLayout(new BorderLayout());
 			JMenuBar bar = new JMenuBar();
@@ -273,10 +281,18 @@ public class Twiline {
 				@Override
 				public void go() {
 					new About(f).setVisible(true);
-				};
+				}
+
+				;
 			}));
 			f.pack();
-			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			f.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					XmlIo.write(m.getValue());
+					System.exit(0);
+				}
+			});
 			f.setVisible(true);
 		} catch (Exception e) {
 			System.out.println("Exception caught: " + e);

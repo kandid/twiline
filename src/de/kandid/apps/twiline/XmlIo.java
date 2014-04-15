@@ -22,14 +22,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
 
+import de.kandid.environment.Places;
 import de.kandid.xml.IndentStreamWriter;
 import de.kandid.xml.XMLCursor;
 
@@ -41,13 +40,17 @@ public class XmlIo {
 	public static class Writer {
 		public void write(IndentStreamWriter out, Twiline twiline) throws XMLStreamException {
 			out.writeStartElement("twiline");
-			out.writeAttribute("version", "0.1");
+			out.writeAttribute("version", "0.2");
 			write(out, twiline._phrases);
-			for (Twiline.Phrase p : twiline._phrases)
-				write(out, p);
+			write(out, twiline._player);
 			out.writeEndElement();
 		}
 
+		public void write(IndentStreamWriter out, Player player) throws XMLStreamException {
+			out.writeStartElement("player");
+			out.writeAttribute("seek-interval", Integer.toString(player._seekInterval));
+			out.writeEndElement();
+		}
 		public void write(IndentStreamWriter out, Twiline.Phrase[] phrases) throws XMLStreamException {
 			out.writeStartElement("phrases");
 			for (Twiline.Phrase p : phrases)
@@ -66,6 +69,7 @@ public class XmlIo {
 	public static class Reader {
 
 		public Twiline readTwiline(XMLCursor in) throws XMLStreamException {
+			Twiline ret = new Twiline();
 			XMLCursor twiline = in.required("twiline");
 			ArrayList<Twiline.Phrase> phrases = new ArrayList<>();
 			for (XMLCursor p : twiline.required("phrases").multiple("phrase")) {
@@ -74,10 +78,24 @@ public class XmlIo {
 				pa._text = p.getText();
 				phrases.add(pa);
 			}
-			return new Twiline(phrases.toArray(new Twiline.Phrase[phrases.size()]));
+			XMLCursor player = twiline.optional("player");
+			if (player != null) {
+				ret._player._seekInterval = player.getInt("seek-interval");
+			}
+			ret._phrases = phrases.toArray(new Twiline.Phrase[phrases.size()]);
+			return ret;
 		}
 	}
 
+	public static void write(Twiline twiline) {
+		try {
+			write(new File(Places.get().getConfigWrite("de.kandid.twiline"), "config.xml"), twiline);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	public static void write(File file, Twiline twiline) throws XMLStreamException, FileNotFoundException {
 		try (IndentStreamWriter out = new IndentStreamWriter(XMLStreamWriterFactory.create(new FileOutputStream(file)))) {
 			new Writer().write(out, twiline);

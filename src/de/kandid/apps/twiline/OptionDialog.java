@@ -21,8 +21,6 @@ package de.kandid.apps.twiline;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -31,9 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.xml.stream.XMLStreamException;
 
-import de.kandid.environment.Places;
 import de.kandid.ui.Action;
 import de.kandid.ui.Keys;
 import de.kandid.ui.swing.SpringLayout;
@@ -67,13 +63,7 @@ public class OptionDialog extends JDialog {
       			model._value._phrases[i]._text = pm._text.getText();
       			model._value._phrases[i]._bold = pm._bold.getValue();
       		}
-		      try {
-			      XmlIo.write(new File(Places.get().getConfigWrite("de.kandid.twiline"), "config.xml"), model._value);
-		      } catch (XMLStreamException e) {
-			      e.printStackTrace();
-		      } catch (FileNotFoundException e) {
-			      e.printStackTrace();
-		      }
+		      XmlIo.write(model.getValue());
 		      setVisible(false);
 	      }
       }.addKeysTo(panel)));

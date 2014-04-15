@@ -21,12 +21,15 @@ package de.kandid.apps.twiline;
 import static de.kandid.ui.Keys.keys;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Hashtable;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -36,6 +39,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -84,6 +88,16 @@ public class Player {
 			_playLoop.start();
 			_updater.setRepeats(true);
 			update();
+		}
+
+		public void setValue(Player value) {
+			_value = value;
+			_seekInterval.setValue(value._seekInterval);
+		}
+
+		public Player getValue() {
+			_value._seekInterval = _seekInterval.getValue();
+			return _value;
 		}
 
 		public void dispose() {
@@ -255,18 +269,20 @@ public class Player {
 		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), keys.a.get(KeyEvent.VK_LEFT)) { //$NON-NLS-3$
 			@Override
 			public void go() {
-				step((long)-_sdl.getFormat().getFrameRate());
+				step((long)-_source.getAudioFormat().getFrameRate() * _seekInterval.getValue() / 10);
 			}
 		};
 
 		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), keys.a.get(VK_RIGHT)) { //$NON-NLS-3$
 			@Override
 			public void go() {
-				step((long)_sdl.getFormat().getFrameRate());
+				step((long)_source.getAudioFormat().getFrameRate() * _seekInterval.getValue() / 10);
 			}
 		};
 
 		public final Position _position = new Position();
+
+		public final DefaultBoundedRangeModel _seekInterval = new DefaultBoundedRangeModel(10, 0, 0, 50);
 
 		private Timer _updater = new Timer(50, new ActionListener() {
 			@Override
@@ -283,15 +299,15 @@ public class Player {
 		private SourceDataLine _sdl;
 		private SeekablePCMSource _source;
 		private byte[] _buf;
+		private Player _value;
 	}
 
-	public static class View extends JPanel {
+	public static class View extends Box {
 		public View(final Model model) {
-			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			super(BoxLayout.PAGE_AXIS);
 			final JLabel time = new JLabel(formatTime(0));
-			time.setFont(getFont().deriveFont(18f));
-			time.setHorizontalAlignment(JLabel.TRAILING);
-			add(time);
+			time.setFont(new Font("Dialog", Font.PLAIN, 18));
+			add(make(time, BorderLayout.EAST));
 			JPanel controls = new JPanel(new GridLayout(0, 2, 5, 5));
 			for (Action a : new Action[]{model._stop, model._play, model._back, model._forward}) {
 				JButton b = new JButton(a);
@@ -300,6 +316,20 @@ public class Player {
 				controls.add(b);
 			}
 			add(controls);
+
+			add(Box.createVerticalStrut(10));
+			add(make(new JLabel(Messages.get("Player.SeekInterval")), BorderLayout.WEST));
+			final JSlider seekInterval = new JSlider(model._seekInterval);
+			seekInterval.setOrientation(JSlider.HORIZONTAL);
+			seekInterval.setPaintLabels(true);
+			seekInterval.setPaintTicks(true);
+			seekInterval.setMajorTickSpacing(10);
+			Hashtable<Integer, JComponent> labels = new Hashtable<>();
+			for (int i = model._seekInterval.getMinimum(); i <= model._seekInterval.getMaximum(); i += 10)
+				labels.put(i, new JLabel(Integer.toString(i / 10) + "s"));
+			seekInterval.setLabelTable(labels);
+			add(seekInterval);
+
 			add(Box.createVerticalGlue());
 
 			model.addListener(this, new Listener() {
@@ -311,6 +341,11 @@ public class Player {
 					time.setText(formatTime((int) model.asMillis(model.getPos())));
 				}
 			});
+		}
+		private static JPanel make(JComponent c, String alignment) {
+			JPanel ret = new JPanel(new BorderLayout());
+			ret.add(c, alignment);
+			return ret;
 		}
 	}
 
@@ -345,6 +380,8 @@ public class Player {
 		return String.format(format, millis, mins, secs, tens);
 	}
 
+	public int _seekInterval = 20;
+
 	public static void main(String[] args) {
 		try {
 			File file = new File("/home/dominik/Freizeit/Music/Untitled002.wav");
@@ -354,10 +391,12 @@ public class Player {
 			System.out.println("Length: " + sp.getLength() + "µs");
 			System.gc();
 			Model m = new Model();
+			m.setValue(new Player());
 			m.open(sp);
 			JFrame f = new JFrame("Player (" + file.getName() + ")");
 			Box view = new Box(BoxLayout.PAGE_AXIS);
 			view.add(new View(m));
+			view.add(Box.createVerticalStrut(15));
 			view.add(new PositionView(m));
 			f.getContentPane().add(view);
 			f.pack();
