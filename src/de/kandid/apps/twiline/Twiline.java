@@ -264,11 +264,17 @@ public class Twiline {
 				e.printStackTrace();
 			}
 			Model m = new Model(twiline);
-			JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
+			final JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
 			f.getContentPane().setLayout(new BorderLayout());
 			JMenuBar bar = new JMenuBar();
 			f.getContentPane().add(bar, BorderLayout.NORTH);
 			f.getContentPane().add(new View(m).addToMenu(bar), BorderLayout.CENTER);
+			bar.add(Action.addToMenu(new JMenu(Action.menu(Messages.get("Twiline.Menu.Help"))), new Action(Messages.get("Twiline.Menu.Help.About"), null, null) {
+				@Override
+				public void go() {
+					new About(f).setVisible(true);
+				};
+			}));
 			f.pack();
 			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			f.setVisible(true);
