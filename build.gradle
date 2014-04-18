@@ -2,12 +2,17 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'gradle-one-jar'
 
 sourceCompatibility = 1.7
 version = '0.0.4'
 group = 'de.kandid'
-def shortName = 'twiline'
-def theName = 'apps.' + shortName
+def theName = 'twiline'
+
+buildscript {
+	repositories {mavenCentral()}
+	dependencies {classpath 'com.github.rholder:gradle-one-jar:1.0.4'}
+}
 
 idea {
 	module {
@@ -36,7 +41,6 @@ dependencies {
 
 jar {baseName = theName}
 
-
 processResources {
 	eachFile {fileCopyDetails ->
 		if (fileCopyDetails.getName().endsWith(".html"))
@@ -50,18 +54,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 }
 
-task dist(type: Jar, dependsOn: classes) {
-	baseName = shortName
-	def deps = files(configurations.compile)
-	from {deps.collect {zipTree(it)}}
-	from jar.source
-	destinationDir = file('build')
-	def classPath = archiveName;
-	deps.each {classPath += " " + it.getName()}
-	manifest {
-		attributes 'Main-Class': 'de.kandid.apps.twiline.Twiline'
-		attributes 'Class-Path': classPath
-	}
+task dist(type: OneJar) {
+	mainClass = 'de.kandid.apps.twiline.Twiline'
+	oneJarBuildDir.mkdirs()
+	new File(oneJarBuildDir, 'one-jar.properties').write "one-jar.silent=true\n"
 }
 
 artifacts {
