@@ -20,7 +20,6 @@ package de.kandid.apps.twiline;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,7 +27,6 @@ import java.io.OutputStream;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -44,24 +42,21 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.UndoManager;
 
-import de.kandid.model.Condition;
 import de.kandid.ui.Action;
-import de.kandid.ui.Keys;
-import de.kandid.util.KandidException;
+import de.kandid.ui.Condition;
 
 public class Editor {
 	public static interface Listener {
 
 	}
 
-	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
+	public static class Model {
 
 		public Model() {
-			super(Listener.class);
 			_edit = new Action[] {
-					def(DefaultEditorKit.cutAction, "edit-cut.png", Keys.keys.c.get(KeyEvent.VK_X)), //$NON-NLS-1$
-					def(DefaultEditorKit.copyAction, "edit-copy.png", Keys.keys.c.get(KeyEvent.VK_C)), //$NON-NLS-1$
-					def(DefaultEditorKit.pasteAction, "edit-paste.png", Keys.keys.c.get(KeyEvent.VK_V)) //$NON-NLS-1$
+					def(DefaultEditorKit.cutAction, "edit-cut.png", "ctrl X"), //$NON-NLS-1$
+					def(DefaultEditorKit.copyAction, "edit-copy.png", "ctrl C"), //$NON-NLS-1$
+					def(DefaultEditorKit.pasteAction, "edit-paste.png", "ctrl V") //$NON-NLS-1$
 				};
 			_doc.addUndoableEditListener(new UndoableEditListener() {
 				@Override
@@ -92,7 +87,7 @@ public class Editor {
 			}
 		}
 
-		private Action def(String name, String icon, KeyStroke key) {
+		private Action def(String name, String icon, String key) {
 			for (final javax.swing.Action a : _kit.getActions()) {
 				if (a.getValue(Action.NAME).equals(name)) {
 					return new Action(Messages.get("Editor." + name), icon, name, key) {
@@ -103,7 +98,7 @@ public class Editor {
 					};
 				}
 			}
-			throw new KandidException("Unknown action: " + name); //$NON-NLS-1$
+			throw new RuntimeException("Unknown action: " + name); //$NON-NLS-1$
 		}
 
 		private void update() {
@@ -117,7 +112,7 @@ public class Editor {
 
 		public final Action[] _edit;
 
-		public final Action _undo = new Action(Messages.get("Editor.Undo"), "edit-undo.png", Messages.get("Editor.Undo_long"), Keys.keys.c.get(KeyEvent.VK_Z)) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _undo = new Action(Messages.get("Editor.Undo"), "edit-undo.png", Messages.get("Editor.Undo_long"), "ctrl Z") { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.undo();
@@ -125,7 +120,7 @@ public class Editor {
 			}
 		};
 
-		public final Action _redo = new Action(Messages.get("Editor.Redo"), "edit-redo.png", Messages.get("Editor.Redo_long"), Keys.keys.c.s.get(KeyEvent.VK_Z)) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _redo = new Action(Messages.get("Editor.Redo"), "edit-redo.png", Messages.get("Editor.Redo_long"), "ctrl shift Z") { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				_undos.redo();
@@ -140,7 +135,7 @@ public class Editor {
 	public static class View extends JTextPane {
 
 		public static abstract class StyledTextAction extends Action {
-			public StyledTextAction(String name, String icon, String description, KeyStroke keyStroke) {
+			public StyledTextAction(String name, String icon, String description, String keyStroke) {
 				super(name, icon, description, keyStroke);
 			}
 
@@ -173,7 +168,7 @@ public class Editor {
 		public View(Model model) {
 			super(model._doc);
 			_faces = new Action[] {
-				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), Keys.keys.c.get(KeyEvent.VK_B)) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), "ctrl B") { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
@@ -185,7 +180,7 @@ public class Editor {
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), Keys.keys.c.get(KeyEvent.VK_I)) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), "ctrl I") { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();
@@ -197,7 +192,7 @@ public class Editor {
 	                requestFocusInWindow();
 					}
 				},
-				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), Keys.keys.c.get(KeyEvent.VK_U)) { //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), "ctrl U") { //$NON-NLS-1$ //$NON-NLS-3$
 					@Override
 					public void go() {
 	                StyledEditorKit kit = getEditorKit();

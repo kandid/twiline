@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -35,7 +34,6 @@ import javax.swing.Spring;
 import javax.swing.SpringLayout;
 
 import de.kandid.ui.Action;
-import de.kandid.ui.Keys;
 
 public class OptionDialog extends JDialog {
 
@@ -50,14 +48,14 @@ public class OptionDialog extends JDialog {
 			Twiline.Phrase.Model pm = new Twiline.Phrase.Model(model._value._phrases[i]);
 			phrases.add(new JLabel("Alt-" + i));
 			phrases.add(new JScrollPane(new JTextArea(pm._text, null, 2, 50)));
-			phrases.add(new de.kandid.model.types.Boolean.View(pm._bold));
+			phrases.add(new de.kandid.ui.Boolean.View(pm._bold));
 			phraseModels.add(pm);
 		}
       makeCompactGrid(phrases, model._value._phrases.length + 1, 3, 0, 0, 5, 5);
       panel.add(phrases, BorderLayout.CENTER);
 
       JPanel buttons = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Save"), Messages.get("OptionDialog.Save_long"), Keys.keys.c.get(KeyEvent.VK_ENTER)) { //$NON-NLS-1$ //$NON-NLS-2$
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Save"), Messages.get("OptionDialog.Save_long"), "ctrl ENTER") { //$NON-NLS-1$ //$NON-NLS-2$
       	@Override
       	public void go() {
       		for (int i = 0; i < phraseModels.size(); ++i) {
@@ -69,7 +67,7 @@ public class OptionDialog extends JDialog {
 		      setVisible(false);
 	      }
       }.addKeysTo(panel)));
-      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), Keys.keys.get(KeyEvent.VK_ESCAPE)) { //$NON-NLS-1$ //$NON-NLS-2$
+      buttons.add(new JButton(new Action(Messages.get("OptionDialog.Cancel"), Messages.get("OptionDialog.Cancel_long"), "ESCAPE") { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public void go() {
       		setVisible(false);

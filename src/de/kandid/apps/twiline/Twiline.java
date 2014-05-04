@@ -21,7 +21,6 @@ package de.kandid.apps.twiline;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -39,12 +38,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 
 import de.kandid.environment.Places;
-import de.kandid.model.TextLineModel;
+import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
-import de.kandid.ui.Keys;
+import de.kandid.ui.TextLineModel;
 
 public class Twiline {
 	public static interface Listener {
@@ -58,7 +56,7 @@ public class Twiline {
 				_bold.setValue(value._bold);
 			}
 			public final TextLineModel _text = new TextLineModel();
-			public final de.kandid.model.types.Boolean.Model _bold = new de.kandid.model.types.Boolean.Model();
+			public final de.kandid.ui.Boolean.Model _bold = new de.kandid.ui.Boolean.Model();
 		}
 
 		public Phrase() {
@@ -72,9 +70,8 @@ public class Twiline {
 		public boolean _bold;
 	}
 
-	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
+	public static class Model {
 		public Model(Twiline twiline) {
-			super(Listener.class);
 			_value = twiline;
 			_player.setValue(_value._player);
 		}
@@ -84,7 +81,7 @@ public class Twiline {
 			return _value;
 		}
 
-		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), Keys.keys.c.get(KeyEvent.VK_S)) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _save = new Action(Messages.get("Twiline.SaveTranscript"), "document-save.png", Messages.get("Twiline.SaveTranscript_long"), "ctrl S") { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				if (_file == null) {
@@ -111,7 +108,7 @@ public class Twiline {
 			}
 		};
 
-		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), Keys.keys.c.get(KeyEvent.VK_O)) { //$NON-NLS-1$ //$NON-NLS-3$
+		public final Action _open = new Action(Messages.get("Twiline.Open"), "document-open.png", Messages.get("Twiline.Open_long"), "ctrl O") { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
@@ -131,6 +128,7 @@ public class Twiline {
 		public final Editor.Model _text = new Editor.Model();
 		public File _file;
 		public Twiline _value;
+		public final Emitter<Listener> _listeners = Emitter.makeEmitter(Listener.class);
 	}
 
 	public static class View extends JPanel {
@@ -196,8 +194,7 @@ public class Twiline {
 		private void makePhraseActions(final Model model, final Editor.View text) {
 			for (int i = 0; i < model._value._phrases.length; ++i) {
 				final int ii = i;
-				KeyStroke ks = KeyStroke.getKeyStroke("alt " + i);
-				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, ks) { //$NON-NLS-1$ //$NON-NLS-2$
+				(new Action(Messages.get("Twiline.Phrase") + i, Messages.get("Twiline.InsertPhrase") + i, "alt " + i) { //$NON-NLS-1$ //$NON-NLS-2$
 					@Override
 					public void go() {
 						final Phrase phrase = model._value._phrases[ii];
@@ -230,7 +227,7 @@ public class Twiline {
 			}
 		};
 
-		public final Action _insertTimestamp = new Action(Messages.get("Twiline.InsertTimestamp_s"), "insert-timestamp.png", Messages.get("Twiline.InsertTimestamp"), Keys.keys.c.get(KeyEvent.VK_T)) {
+		public final Action _insertTimestamp = new Action(Messages.get("Twiline.InsertTimestamp_s"), "insert-timestamp.png", Messages.get("Twiline.InsertTimestamp"), "ctrl T") {
 			@Override
 			public void go() {
 				String ts = Player.formatTime((int)_model._player.asMillis(_model._player.getPos()));

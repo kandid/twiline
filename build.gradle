@@ -14,29 +14,21 @@ buildscript {
 	dependencies {classpath 'com.github.rholder:gradle-one-jar:1.0.4'}
 }
 
-idea {
-	module {
-		outputDir = file('build/classes/main')
-		testOutputDir = file('build/classes/test')
-	}
-}
-
-eclipse {
-	classpath {defaultOutputDir = file('build/eclipse/classes')}
-	project {natures 'org.eclipse.jdt.groovy.core.groovyNature', 'org.springsource.ide.eclipse.gradle.core.nature'}
-}
-
 repositories {
 	mavenLocal()
 	mavenCentral()
 }
+
+buildDir = hasProperty('build.dir.root') ? file(getProperty('build.dir.root') + '/' + project.name) : buildDir
 
 sourceSets {
 	main {java {srcDir 'src'} resources {srcDir 'src'}}
 }
 
 dependencies {
-	compile group: 'de.kandid', name: 'kandidlib', version: '0.4.0'
+	compile 'de.kandid:kandidlib-emitter:0.4.1'
+	compile 'de.kandid:kandidlib-places:0.1.0'
+	compile 'de.kandid:kandidlib-xml:0.1.0'
 }
 
 jar {baseName = theName}

@@ -18,15 +18,11 @@
 
 package de.kandid.apps.twiline;
 
-import static de.kandid.ui.Keys.keys;
-import static java.awt.event.KeyEvent.VK_RIGHT;
-
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -47,13 +43,13 @@ import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
-import de.kandid.model.Condition;
 import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
+import de.kandid.ui.Condition;
 
 public class Player {
 
-	@Emitter.Listener
+	//@Emitter.Listener
 	public static interface Listener {
 		void trackChanged();
 		void positionChanged(long frames);
@@ -61,7 +57,7 @@ public class Player {
 
 	private enum Cmd {Done, Play, Pause}
 
-	public static class Model extends de.kandid.model.Model.Abstract<Listener> {
+	public static class Model {
 
 		public class Position extends DefaultBoundedRangeModel {
 
@@ -77,7 +73,6 @@ public class Player {
 		}
 
 		public Model() {
-			super(Listener.class);
 			_playLoop = new Thread(getClass().getName()) {
 				@Override
 				public void run() {
@@ -252,28 +247,28 @@ public class Player {
 			trackLoaded.applyTo(_play, _stop, _back, _forward);
 		}
 
-		public final Action _play = new Action(Messages.get("Player.play_s"), "media-playback-start.png", Messages.get("Player.play"), keys.a.get(KeyEvent.VK_UP)) { //$NON-NLS-3$
+		public final Action _play = new Action(Messages.get("Player.play_s"), "media-playback-start.png", Messages.get("Player.play"), "alt UP") { //$NON-NLS-3$
 			@Override
 			public void go() {
 				play();
 			}
 		};
 
-		public final Action _stop = new Action(Messages.get("Player.pause_s"), "media-playback-pause.png", Messages.get("Player.pause"), keys.a.get(KeyEvent.VK_DOWN)) { //$NON-NLS-3$
+		public final Action _stop = new Action(Messages.get("Player.pause_s"), "media-playback-pause.png", Messages.get("Player.pause"), "alt DOWN") { //$NON-NLS-3$
 			@Override
 			public void go() {
 				pause();
 			}
 		};
 
-		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), keys.a.get(KeyEvent.VK_LEFT)) { //$NON-NLS-3$
+		public final Action _back = new Action(Messages.get("Player.back_s"), "media-seek-backward.png", Messages.get("Player.back"), "alt LEFT") { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)-_source.getAudioFormat().getFrameRate() * _seekInterval.getValue() / 10);
 			}
 		};
 
-		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), keys.a.get(VK_RIGHT)) { //$NON-NLS-3$
+		public final Action _forward = new Action(Messages.get("Player.forward_s"), "media-seek-forward.png", Messages.get("Player.forward"), "alt RIGHT") { //$NON-NLS-3$
 			@Override
 			public void go() {
 				step((long)_source.getAudioFormat().getFrameRate() * _seekInterval.getValue() / 10);
@@ -284,7 +279,7 @@ public class Player {
 
 		public final DefaultBoundedRangeModel _seekInterval = new DefaultBoundedRangeModel(10, 0, 0, 50);
 
-		private Timer _updater = new Timer(50, new ActionListener() {
+		private final Timer _updater = new Timer(50, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_position.updateTo(getPos());
@@ -300,6 +295,7 @@ public class Player {
 		private SeekablePCMSource _source;
 		private byte[] _buf;
 		private Player _value;
+		public final Emitter<Listener> _listeners = Emitter.makeEmitter(Listener.class);
 	}
 
 	public static class View extends Box {
@@ -332,7 +328,7 @@ public class Player {
 
 			add(Box.createVerticalGlue());
 
-			model.addListener(this, new Listener() {
+			model._listeners.add(this, new Listener() {
 				@Override
 				public void trackChanged() {
 				}
@@ -353,7 +349,7 @@ public class Player {
 		public PositionView(final Model model) {
 			super(model._position);
 			_model = model;
-			model.addListener(this, this);
+			model._listeners.add(this, this);
 			setPaintTicks(true);
 			trackChanged();
 		}
@@ -366,7 +362,7 @@ public class Player {
 		public void positionChanged(long frames) {
 		}
 
-		private Model _model;
+		private final Model _model;
 	}
 
 	public static String formatTime(int millis) {

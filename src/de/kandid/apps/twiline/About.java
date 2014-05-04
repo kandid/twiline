@@ -22,6 +22,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -31,8 +32,6 @@ import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import de.kandid.util.IOUtil;
-
 public class About extends JDialog {
 
 	public About(JFrame parent) {
@@ -41,9 +40,8 @@ public class About extends JDialog {
 		text.setContentType("text/html; charset=UTF-8");
 		text.setEditable(false);
 		String content = "Sorry! Couldn't load the text to display";
-		try {
-			content = new String(IOUtil.readFully(getClass().getResourceAsStream("about.html")));
-		} catch (IOException e2) {
+		try (Scanner sc = new Scanner(getClass().getResourceAsStream("about.html"), "UTF-8")) {
+			content = sc.useDelimiter("\\A").next();
 		}
 		text.setText(content);
 		text.addHyperlinkListener(new HyperlinkListener() {

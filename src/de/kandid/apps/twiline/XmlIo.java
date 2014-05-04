@@ -26,8 +26,6 @@ import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
-
 import de.kandid.environment.Places;
 import de.kandid.xml.IndentStreamWriter;
 import de.kandid.xml.XMLCursor;
@@ -97,7 +95,7 @@ public class XmlIo {
 		}
 	}
 	public static void write(File file, Twiline twiline) throws XMLStreamException, FileNotFoundException {
-		try (IndentStreamWriter out = new IndentStreamWriter(XMLStreamWriterFactory.create(new FileOutputStream(file)))) {
+		try (IndentStreamWriter out = new IndentStreamWriter(new FileOutputStream(file))) {
 			new Writer().write(out, twiline);
 		}
 	}

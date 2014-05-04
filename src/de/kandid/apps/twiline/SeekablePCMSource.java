@@ -30,8 +30,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import com.sun.istack.internal.NotNull;
-
 public interface SeekablePCMSource {
 
 	public static class MemorySource implements SeekablePCMSource {
@@ -100,6 +98,7 @@ public interface SeekablePCMSource {
 				return _raf.length();
 			}
 
+			@Override
 			public long skip(long n) throws IOException {
 				_raf.seek(_raf.getFilePointer() + n);
 				return n;
@@ -140,7 +139,7 @@ public interface SeekablePCMSource {
 			}
 
 			@Override
-			public int read(@NotNull byte[] b, int off, int len) throws IOException {
+			public int read(byte[] b, int off, int len) throws IOException {
 				return _raf.read(b, off, len);
 			}
 
@@ -181,10 +180,10 @@ public interface SeekablePCMSource {
 			return _frames;
 		}
 
-		private MarkStream _ms;
+		private final MarkStream _ms;
 		public final AudioFormat _format;
-		private long _offset;
-		private long _frames;
+		private final long _offset;
+		private final long _frames;
 	}
 
 	/**
