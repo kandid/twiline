@@ -88,7 +88,8 @@ public class Editor {
 		private Action def(String name, String icon, String key) {
 			for (final javax.swing.Action a : _kit.getActions()) {
 				if (a.getValue(Action.NAME).equals(name)) {
-					return new Action(Messages.get("Editor." + name), icon, name, key) {
+					String msgId = "Editor." + name;
+					return new Action(Messages.get(msgId), icon, Messages.get(msgId + "_long"), key) {
 						@Override
 						public void go() {
 							a.actionPerformed(null);
