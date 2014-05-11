@@ -18,6 +18,8 @@ package de.kandid.ui;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,7 +143,7 @@ public abstract class Action extends AbstractAction {
 			try {
 				return new ImageIcon(ImageIO.read(getClass().getResourceAsStream(name)));
 			} catch (IOException e) {
-				//TODO
+				Logger.getLogger(Action.class.getName()).log(Level.WARNING, "Unable to load icon: " + name, e);
 			}
 		}
 		return null;

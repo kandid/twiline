@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -89,8 +91,7 @@ public class Twiline {
 				try {
 					_text.write(new FileOutputStream(_file));
 				} catch (Exception e) {
-					//TODO
-					e.printStackTrace();
+					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to save text", e);
 				}
 			}
 		};
@@ -116,8 +117,7 @@ public class Twiline {
 				try {
 					_text.read(new FileInputStream(_file));
 				} catch (Exception e) {
-					//TODO
-					e.printStackTrace();
+					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to read text", e);
 				}
 			}
 		};
@@ -212,8 +212,7 @@ public class Twiline {
 					SeekablePCMSource.PcmFile sp = new SeekablePCMSource.PcmFile(fc.getSelectedFile());
 					_model._player.open(sp);
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to open audio stream", e);
 				}
 			}
 		};
@@ -257,14 +256,14 @@ public class Twiline {
 	public Player _player = new Player();
 
 	public static void main(String[] args) {
+		Logger.getLogger("").addHandler(new Log());
 		try {
-
 			Twiline twiline = new Twiline();
 			try {
 				twiline = XmlIo.read(new File(Places.get().getConfigRead("de.kandid.twiline")[0], "config.xml"));
 			} catch (Exception e) {
 				// Nothing to do. Use the default
-				e.printStackTrace();
+				Logger.getLogger(Twiline.class.getName()).info("No user configuration found");
 			}
 			final Model m = new Model(twiline);
 			final JFrame f = new JFrame(Messages.get("Twiline.Title")); //$NON-NLS-1$
@@ -277,8 +276,6 @@ public class Twiline {
 				public void go() {
 					new About(f).setVisible(true);
 				}
-
-				;
 			}));
 			f.pack();
 			f.addWindowListener(new WindowAdapter() {
@@ -290,8 +287,7 @@ public class Twiline {
 			});
 			f.setVisible(true);
 		} catch (Exception e) {
-			System.out.println("Exception caught: " + e);
-			e.printStackTrace();
+			Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Exception in main", e);
 		}
 	}
 }

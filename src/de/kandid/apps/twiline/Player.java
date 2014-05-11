@@ -24,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -202,8 +204,7 @@ public class Player {
 					_offset = frames;
 					_sdlStart = _sdl.getLongFramePosition();
 				} catch (IOException e) {
-					//TODO
-					e.printStackTrace();
+					Logger.getLogger(Player.class.getName()).log(Level.WARNING, "Unable to seek in audio stream", e);
 				}
 			}
 			_listeners.fire().positionChanged(getPos());
@@ -215,8 +216,7 @@ public class Player {
 				try {
 					_source.seek(getPos());
 				} catch (IOException e) {
-					// TODO
-					e.printStackTrace();
+					Logger.getLogger(Player.class.getName()).log(Level.WARNING, "Unable to seek to position in play", e);
 				}
 				_sdl.start();
 				_playLoop.notify();

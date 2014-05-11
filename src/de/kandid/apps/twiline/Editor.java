@@ -44,9 +44,6 @@ import de.kandid.ui.Action;
 import de.kandid.ui.Condition;
 
 public class Editor {
-	public static interface Listener {
-
-	}
 
 	public static class Model {
 
@@ -66,23 +63,13 @@ public class Editor {
 			update();
 		}
 
-		public void read(InputStream in) throws IOException {
-			try {
-				_doc.remove(0, _doc.getLength());
-				_kit.read(in, _doc, 0);
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		public void read(InputStream in) throws IOException, BadLocationException {
+			_doc.remove(0, _doc.getLength());
+			_kit.read(in, _doc, 0);
 		}
 
-		public void write(OutputStream out) throws IOException {
-			try {
-				_kit.write(out, _doc, 0, _doc.getLength());
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		public void write(OutputStream out) throws IOException, BadLocationException {
+			_kit.write(out, _doc, 0, _doc.getLength());
 		}
 
 		private Action def(String name, String icon, String key) {
