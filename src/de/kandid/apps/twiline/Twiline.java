@@ -42,6 +42,7 @@ import javax.swing.JToolBar;
 import de.kandid.environment.Places;
 import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
+import de.kandid.ui.ErrorDialog;
 import de.kandid.ui.TextLineModel;
 
 public class Twiline {
@@ -256,7 +257,7 @@ public class Twiline {
 	public Player _player = new Player();
 
 	public static void main(String[] args) {
-		Logger.getLogger("").addHandler(new Log());
+		Logger.getLogger("").addHandler(new ErrorDialog.Log());
 		try {
 			Twiline twiline = new Twiline();
 			try {
