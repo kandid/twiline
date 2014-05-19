@@ -99,7 +99,7 @@ public class XmlIo {
 	}
 
 	public static Twiline read(File file) throws XMLStreamException, FileNotFoundException {
-		try (XMLCursor in = new XMLCursor(new FileInputStream(file))) {
+		try (XMLCursor in = new XMLCursor(new FileInputStream(file), file.toString())) {
 			return new Reader().readTwiline(in);
 		}
 	}
