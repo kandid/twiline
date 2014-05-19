@@ -120,76 +120,41 @@ public class Editor {
 	}
 	public static class View extends JTextPane {
 
-		public static abstract class StyledTextAction extends Action {
-			public StyledTextAction(String name, String icon, String description, String keyStroke) {
+		public class StyledTextAction extends Action {
+			
+			public StyledTextAction(Object attr, String name, String icon, String description, String keyStroke) {
 				super(name, icon, description, keyStroke);
+				_attr = attr;
+			}
+			
+			@Override
+			public void go() {
+            StyledEditorKit kit = getEditorKit();
+            MutableAttributeSet attr = kit.getInputAttributes();
+            Boolean b = (Boolean) attr.getAttribute(_attr);
+            if (b == null)
+            	b = Boolean.FALSE;
+            SimpleAttributeSet sas = new SimpleAttributeSet();
+            sas.addAttribute(_attr, Boolean.valueOf(!b.booleanValue()));
+            int start = View.this.getSelectionStart();
+				int end = View.this.getSelectionEnd();
+				if (start != end) {
+					StyledDocument doc = View.this.getDocument();
+					doc.setCharacterAttributes(start, end - start, sas, false);
+				}
+				attr.addAttributes(sas);
+            requestFocusInWindow();
 			}
 
-			/**
-			 * Applies the given attributes to character content. If there is a
-			 * selection, the attributes are applied to the selection range. If
-			 * there is no selection, the attributes are applied to the input
-			 * attribute set which defines the attributes for any new text that
-			 * gets inserted.
-			 * @param editor  the editor
-			 * @param attr    the attributes
-			 * @param replace if true, then replace the existing attributes first
-			 */
-			protected final void setCharacterAttributes(View editor, AttributeSet attr, boolean replace) {
-				int p0 = editor.getSelectionStart();
-				int p1 = editor.getSelectionEnd();
-				if (p0 != p1) {
-					StyledDocument doc = editor.getDocument();
-					doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
-				}
-				StyledEditorKit k = editor.getEditorKit();
-				MutableAttributeSet inputAttributes = k.getInputAttributes();
-				if (replace) {
-					inputAttributes.removeAttributes(inputAttributes);
-				}
-				inputAttributes.addAttributes(attr);
-			}
+			private final Object _attr;
 		}
 
 		public View(Model model) {
 			super(model._doc);
 			_faces = new Action[] {
-				new StyledTextAction(Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), "ctrl B") { //$NON-NLS-1$ //$NON-NLS-3$
-					@Override
-					public void go() {
-	                StyledEditorKit kit = getEditorKit();
-	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean bold = !javax.swing.text.StyleConstants.isBold(attr);
-	                SimpleAttributeSet sas = new SimpleAttributeSet();
-	                StyleConstants.setBold(sas, bold);
-	                setCharacterAttributes(View.this, sas, false);
-	                requestFocusInWindow();
-					}
-				},
-				new StyledTextAction(Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), "ctrl I") { //$NON-NLS-1$ //$NON-NLS-3$
-					@Override
-					public void go() {
-	                StyledEditorKit kit = getEditorKit();
-	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean italic = !javax.swing.text.StyleConstants.isItalic(attr);
-	                SimpleAttributeSet sas = new SimpleAttributeSet();
-	                StyleConstants.setItalic(sas, italic);
-	                setCharacterAttributes(View.this, sas, false);
-	                requestFocusInWindow();
-					}
-				},
-				new StyledTextAction(Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), "ctrl U") { //$NON-NLS-1$ //$NON-NLS-3$
-					@Override
-					public void go() {
-	                StyledEditorKit kit = getEditorKit();
-	                MutableAttributeSet attr = kit.getInputAttributes();
-	                boolean underline = !javax.swing.text.StyleConstants.isUnderline(attr);
-	                SimpleAttributeSet sas = new SimpleAttributeSet();
-	                StyleConstants.setUnderline(sas, underline);
-	                setCharacterAttributes(View.this, sas, false);
-	                requestFocusInWindow();
-					}
-				}
+				new StyledTextAction(StyleConstants.Bold, Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), "ctrl B"), //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(StyleConstants.Italic, Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), "ctrl I"), //$NON-NLS-1$ //$NON-NLS-3$
+				new StyledTextAction(StyleConstants.Underline, Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), "ctrl U") //$NON-NLS-1$ //$NON-NLS-3$
 			};
 			setPreferredSize(new Dimension(500, 500));
 			for (Action[] group : new Action[][]{model._edit, _faces})
@@ -206,7 +171,7 @@ public class Editor {
 		public StyledDocument getDocument() {
 			return (StyledDocument) super.getDocument();
 		}
-
+		
 		public void insertText(String text, AttributeSet attributes) {
 			try {
 				int offs = getCaret().getDot();
