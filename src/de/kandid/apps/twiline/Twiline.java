@@ -39,16 +39,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import de.kandid.apps.twiline.Editor.View.StyledTextAction;
 import de.kandid.environment.Places;
-import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
 import de.kandid.ui.ErrorDialog;
 import de.kandid.ui.TextLineModel;
 
 public class Twiline {
-	public static interface Listener {
-
-	}
 
 	public static class Phrase {
 		public static class Model {
@@ -127,7 +124,6 @@ public class Twiline {
 		public final Editor.Model _text = new Editor.Model();
 		public File _file;
 		public Twiline _value;
-		public final Emitter<Listener> _listeners = Emitter.makeEmitter(Listener.class);
 	}
 
 	public static class View extends JPanel {
@@ -149,10 +145,11 @@ public class Twiline {
 			Action.addToToolbar(tb, null, model._text._undo, model._text._redo, null);
 			Action.addToToolbar(tb, model._text._edit);
 			Action.addToToolbar(tb, null, _insertTimestamp);
-			for (Action a : _text._faces) {
-				JToggleButton b = new JToggleButton(a);
-				b.setText("");
-				tb.add(b);
+			for (StyledTextAction style : _text._styles) {
+				JToggleButton button = new JToggleButton(style);
+				button.setModel(style._model);
+            button.setHideActionText(true);
+				tb.add(button);
 			}
 			editorControls.add(tb);
 			for (Action a : new Action[]{
@@ -179,7 +176,7 @@ public class Twiline {
 			JMenu edit = new JMenu(Action.menu(Messages.get("Twiline.Menu.Edit")));
 			Action.addToMenu(edit, _model._text._edit);
 			Action.addToMenu(edit, null, _model._text._undo, _model._text._redo, null);
-			Action.addToMenu(edit, _text._faces);
+			Action.addToMenu(edit, _text._styles);
 			Action.addToMenu(edit, null, _insertTimestamp);
 			bar.add(edit);
 

@@ -24,8 +24,11 @@ import java.io.OutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
@@ -40,6 +43,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.UndoManager;
 
+import de.kandid.apps.twiline.Editor.View.StyledTextAction;
 import de.kandid.ui.Action;
 import de.kandid.ui.Condition;
 
@@ -74,7 +78,7 @@ public class Editor {
 
 		private Action def(String name, String icon, String key) {
 			for (final javax.swing.Action a : _kit.getActions()) {
-				if (a.getValue(Action.NAME).equals(name)) {
+				if (a.getValue(javax.swing.Action.NAME).equals(name)) {
 					String msgId = "Editor." + name;
 					return new Action(Messages.get(msgId), icon, Messages.get(msgId + "_long"), key) {
 						@Override
@@ -118,48 +122,58 @@ public class Editor {
 		private final StyledEditorKit _kit = new RTFEditorKit();
 		public final DefaultStyledDocument _doc = new DefaultStyledDocument();
 	}
+
 	public static class View extends JTextPane {
 
 		public class StyledTextAction extends Action {
-			
+
 			public StyledTextAction(Object attr, String name, String icon, String description, String keyStroke) {
 				super(name, icon, description, keyStroke);
 				_attr = attr;
 			}
-			
+
 			@Override
 			public void go() {
             StyledEditorKit kit = getEditorKit();
-            MutableAttributeSet attr = kit.getInputAttributes();
-            Boolean b = (Boolean) attr.getAttribute(_attr);
-            if (b == null)
-            	b = Boolean.FALSE;
+            MutableAttributeSet attrs = kit.getInputAttributes();
             SimpleAttributeSet sas = new SimpleAttributeSet();
-            sas.addAttribute(_attr, Boolean.valueOf(!b.booleanValue()));
-            int start = View.this.getSelectionStart();
-				int end = View.this.getSelectionEnd();
+            boolean b = !getAttribute(attrs, _attr);
+				sas.addAttribute(_attr, Boolean.valueOf(b));
+				_model.setSelected(b);
+            int start = getSelectionStart();
+				int end = getSelectionEnd();
 				if (start != end) {
-					StyledDocument doc = View.this.getDocument();
+					StyledDocument doc = getDocument();
 					doc.setCharacterAttributes(start, end - start, sas, false);
 				}
-				attr.addAttributes(sas);
+				attrs.addAttributes(sas);
             requestFocusInWindow();
 			}
+
+			public final JToggleButton.ToggleButtonModel _model = new JToggleButton.ToggleButtonModel();
 
 			private final Object _attr;
 		}
 
 		public View(Model model) {
 			super(model._doc);
-			_faces = new Action[] {
+			_styles = new StyledTextAction[] {
 				new StyledTextAction(StyleConstants.Bold, Messages.get("Editor.Bold"), "format-text-bold.png", Messages.get("Editor.Bold_long"), "ctrl B"), //$NON-NLS-1$ //$NON-NLS-3$
 				new StyledTextAction(StyleConstants.Italic, Messages.get("Editor.Italic"), "format-text-italic.png", Messages.get("Editor.Italic_long"), "ctrl I"), //$NON-NLS-1$ //$NON-NLS-3$
 				new StyledTextAction(StyleConstants.Underline, Messages.get("Editor.Underline"), "format-text-underline.png", Messages.get("Editor.Underline_long"), "ctrl U") //$NON-NLS-1$ //$NON-NLS-3$
 			};
 			setPreferredSize(new Dimension(500, 500));
-			for (Action[] group : new Action[][]{model._edit, _faces})
+			for (Action[] group : new Action[][]{model._edit, _styles})
 				for (Action a : group)
 					a.addKeysTo(this);
+			addCaretListener(new CaretListener() {
+				@Override
+				public void caretUpdate(CaretEvent e) {
+					AttributeSet attrs = getDocument().getCharacterElement(Math.max(0, e.getDot() - 1)).getAttributes();
+					for (StyledTextAction a : _styles)
+						a._model.setSelected(getAttribute(attrs, a._attr));
+				}
+			});
 		}
 
 		@Override
@@ -171,7 +185,7 @@ public class Editor {
 		public StyledDocument getDocument() {
 			return (StyledDocument) super.getDocument();
 		}
-		
+
 		public void insertText(String text, AttributeSet attributes) {
 			try {
 				int offs = getCaret().getDot();
@@ -181,7 +195,12 @@ public class Editor {
 			}
 		}
 
-		public final Action[] _faces;
+		public static boolean getAttribute(AttributeSet attrs, Object key) {
+			Boolean ret = (Boolean) attrs.getAttribute(key);
+			return ret != null ? ret.booleanValue() : false;
+		}
+
+		public final StyledTextAction[] _styles;
 
 		public final SimpleAttributeSet _normal = new SimpleAttributeSet() {
 			{
@@ -206,7 +225,12 @@ public class Editor {
 			JToolBar toolbar = new JToolBar();
 			Action.addToToolbar(toolbar, model._edit);
 			toolbar.addSeparator();
-			Action.addToToolbar(toolbar, view._faces);
+			for (StyledTextAction style : view._styles) {
+				JToggleButton button = new JToggleButton(style);
+				button.setModel(style._model);
+            button.setHideActionText(true);
+				toolbar.add(button);
+			}
 			f.getContentPane().add(view, BorderLayout.CENTER);
 			f.getContentPane().add(toolbar, BorderLayout.NORTH);
 			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
