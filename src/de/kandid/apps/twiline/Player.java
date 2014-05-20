@@ -40,8 +40,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
@@ -79,6 +82,24 @@ public class Player {
 					playLoop();
 				}
 			};
+			_speed.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					synchronized (_playLoop) {
+						if (_sdl == null)
+							return;
+						try {
+							boolean isRunning = _sdl.isRunning();
+							_sdl.close();
+							openSDL();
+							if (isRunning)
+								play();
+						} catch (LineUnavailableException lue) {
+							Logger.getLogger(Player.class.getName()).log(Level.SEVERE, "Unable to change line on the fly", lue);
+						}
+					}
+				}
+			});
 			_cmd = Cmd.Pause;
 			_playLoop.start();
 			_updater.setRepeats(true);
@@ -88,10 +109,12 @@ public class Player {
 		public void setValue(Player value) {
 			_value = value;
 			_seekInterval.setValue(value._seekInterval);
+			_speed.setValue(value._speed);
 		}
 
 		public Player getValue() {
 			_value._seekInterval = _seekInterval.getValue();
+			_value._speed = _speed.getValue();
 			return _value;
 		}
 
@@ -106,10 +129,7 @@ public class Player {
 			synchronized (_playLoop) {
 				close();
 				_source = src;
-				final AudioFormat af = _source.getAudioFormat();
-				_sdl = AudioSystem.getSourceDataLine(af);
-				_sdl.open(src.getAudioFormat());
-				_buf = new byte[_sdl.getBufferSize()];
+				openSDL();
 			}
 			_position.setMaximum((int) _source.getLength());
 			_listeners.fire().trackChanged();
@@ -140,7 +160,7 @@ public class Player {
 			synchronized (_playLoop) {
 				if (_sdl == null)
 					return 0;
-				return (long)((double) frames / _sdl.getFormat().getFrameRate() * 1000);
+				return (long)((double) frames / _source.getAudioFormat().getFrameRate() * 1000);
 			}
 		}
 
@@ -148,7 +168,7 @@ public class Player {
 			synchronized (_playLoop) {
 				if (_sdl == null)
 					return 0;
-				return (long)((double) millis * _sdl.getFormat().getFrameRate() / 1000);
+				return (long)((double) millis * _source.getAudioFormat().getFrameRate() / 1000);
 			}
 		}
 
@@ -194,6 +214,18 @@ public class Player {
 				} catch (Exception ignored) {
 				}
 			}
+		}
+
+		private void openSDL() throws LineUnavailableException {
+			final AudioFormat af = _source.getAudioFormat();
+			final float speed = (float) _speed.getValue() / 100;
+			final AudioFormat dest = new AudioFormat(
+					af.getEncoding(), af.getSampleRate() * speed, af.getSampleSizeInBits(),
+					af.getChannels(), af.getFrameSize(), af.getFrameRate() * speed, af.isBigEndian()
+			);
+			_sdl = AudioSystem.getSourceDataLine(dest);
+			_sdl.open(dest);
+			_buf = new byte[_sdl.getBufferSize()];
 		}
 
 		public void seek(long frames) {
@@ -277,6 +309,8 @@ public class Player {
 
 		public final DefaultBoundedRangeModel _seekInterval = new DefaultBoundedRangeModel(10, 0, 0, 50);
 
+		public final DefaultBoundedRangeModel _speed = new DefaultBoundedRangeModel(100, 0, 50, 200);
+
 		private final Timer _updater = new Timer(50, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -314,7 +348,7 @@ public class Player {
 			add(Box.createVerticalStrut(10));
 			add(make(new JLabel(Messages.get("Player.SeekInterval")), BorderLayout.WEST));
 			final JSlider seekInterval = new JSlider(model._seekInterval);
-			seekInterval.setOrientation(JSlider.HORIZONTAL);
+			seekInterval.setOrientation(SwingConstants.HORIZONTAL);
 			seekInterval.setPaintLabels(true);
 			seekInterval.setPaintTicks(true);
 			seekInterval.setMajorTickSpacing(10);
@@ -323,6 +357,19 @@ public class Player {
 				labels.put(i, new JLabel(Integer.toString(i / 10) + "s"));
 			seekInterval.setLabelTable(labels);
 			add(seekInterval);
+
+			add(Box.createVerticalStrut(10));
+			add(make(new JLabel(Messages.get("Player.Speed")), BorderLayout.WEST));
+			final JSlider speed = new JSlider(model._speed);
+			speed.setOrientation(SwingConstants.HORIZONTAL);
+			speed.setPaintLabels(true);
+			speed.setPaintTicks(true);
+			speed.setMajorTickSpacing(50);
+			Hashtable<Integer, JComponent> speedLabels = new Hashtable<>();
+			for (int i = model._speed.getMinimum(); i <= model._speed.getMaximum(); i += 50)
+				speedLabels.put(i, new JLabel(Integer.toString(i) + "%"));
+			speed.setLabelTable(speedLabels);
+			add(speed);
 
 			add(Box.createVerticalGlue());
 
@@ -375,6 +422,8 @@ public class Player {
 	}
 
 	public int _seekInterval = 20;
+
+	public int _speed = 100;
 
 	public static void main(String[] args) {
 		try {
