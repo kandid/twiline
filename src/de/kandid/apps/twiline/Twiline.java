@@ -98,6 +98,7 @@ public class Twiline {
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
+				fc.setDialogTitle((String) getValue(NAME));
 				if (fc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				_file = fc.getSelectedFile();
@@ -109,6 +110,7 @@ public class Twiline {
 			@Override
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
+				fc.setDialogTitle((String)getValue(NAME));
 				if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				_file = fc.getSelectedFile();
@@ -116,6 +118,22 @@ public class Twiline {
 					_text.read(new FileInputStream(_file));
 				} catch (Exception e) {
 					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to read text", e);
+				}
+			}
+		};
+
+		public final Action _openAudio = new Action(Messages.get("Twiline.OpenAudio"), "document-open-data.png", Messages.get("Twiline.OpenAudio_long"), null) { //$NON-NLS-1$ //$NON-NLS-3$
+			@Override
+			public void go() {
+				JFileChooser fc = new JFileChooser();
+				fc.setDialogTitle((String)getValue(NAME));
+				if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+					return;
+				try {
+					SeekablePCMSource.PcmFile sp = new SeekablePCMSource.PcmFile(fc.getSelectedFile());
+					_player.open(sp);
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to open audio stream", e);
 				}
 			}
 		};
@@ -140,7 +158,7 @@ public class Twiline {
 			editor.add(new JScrollPane(_text), BorderLayout.CENTER);
 			JPanel editorControls = new JPanel(new FlowLayout(FlowLayout.LEADING));
 			JToolBar tb = new JToolBar();
-			Action.addToToolbar(tb, _openAudio, model._open, model._save, model._saveAs);
+			Action.addToToolbar(tb, model._openAudio, model._open, model._save, model._saveAs);
 			Action.addToToolbar(tb, null, _settings);
 			Action.addToToolbar(tb, null, model._text._undo, model._text._redo, null);
 			Action.addToToolbar(tb, model._text._edit);
@@ -168,7 +186,7 @@ public class Twiline {
 
 		public View addToMenu(JMenuBar bar) {
 			JMenu file = Action.addToMenu(new JMenu(Action.menu(Messages.get("Twiline.Menu.File"))),
-					_model._open, _model._save, _model._saveAs, null, _openAudio,
+					_model._open, _model._save, _model._saveAs, null, _model._openAudio,
 					null, _settings
 			);
 			bar.add(file);
@@ -199,21 +217,6 @@ public class Twiline {
 				}).addKeysTo(text);
 			}
 		}
-
-		public final Action _openAudio = new Action(Messages.get("Twiline.OpenAudio"), "document-open-data.png", Messages.get("Twiline.OpenAudio_long"), null) { //$NON-NLS-1$ //$NON-NLS-3$
-			@Override
-			public void go() {
-				JFileChooser fc = new JFileChooser();
-				if (fc.showOpenDialog(View.this) != JFileChooser.APPROVE_OPTION)
-					return;
-				try {
-					SeekablePCMSource.PcmFile sp = new SeekablePCMSource.PcmFile(fc.getSelectedFile());
-					_model._player.open(sp);
-				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-					Logger.getLogger(Twiline.class.getName()).log(Level.SEVERE, "Unable to open audio stream", e);
-				}
-			}
-		};
 
 		public final Action _settings = new Action(Messages.get("Twiline.Settings"), "preferences.png", Messages.get("Twiline.Settings_long"), null) { //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
