@@ -92,9 +92,11 @@ public class Player {
 						if (_sdl == null)
 							return;
 						try {
+							long pos = getPos();
 							boolean isRunning = _sdl.isRunning();
 							_sdl.close();
 							openSDL();
+							seek(pos);
 							if (isRunning)
 								play();
 						} catch (LineUnavailableException lue) {
