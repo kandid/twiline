@@ -17,8 +17,10 @@
 package de.kandid.apps.twiline;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -30,23 +32,28 @@ import java.util.logging.Logger;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.kandid.apps.twiline.Editor.View.StyledTextAction;
 import de.kandid.environment.Places;
 import de.kandid.ui.Action;
+import de.kandid.ui.Boolean;
 import de.kandid.ui.ErrorDialog;
 import de.kandid.ui.TextLineModel;
 
 public class Twiline {
 
+	public static final FileNameExtensionFilter _rtf = new FileNameExtensionFilter(Messages.get("Twiline.Filter.rtf"), "rtf");
 	public static class Phrase {
 		public static class Model {
 			public Model(Phrase value) {
@@ -72,6 +79,7 @@ public class Twiline {
 		public Model(Twiline twiline) {
 			_value = twiline;
 			_player.setValue(_value._player);
+			_appendExt.setValue(true);
 		}
 
 		public Twiline getValue() {
@@ -97,11 +105,29 @@ public class Twiline {
 		public final Action _saveAs = new Action(Messages.get("Twiline.SaveAs"), "document-save-as.png", Messages.get("Twiline.SaveAs_long"), null) { //$NON-NLS-1$ //$NON-NLS-3$
 			@Override
 			public void go() {
-				JFileChooser fc = new JFileChooser(_file);
+				JFileChooser fc = new JFileChooser(_file) {
+					@Override
+					protected JDialog createDialog(Component parent) throws HeadlessException {
+						JDialog ret = super.createDialog(parent);
+						JPanel option = new JPanel(new FlowLayout(FlowLayout.LEADING));
+						option.add(new Boolean.View(_appendExt));
+						option.add(new JLabel(Messages.get("Twiline.SaveAs.AppendExt")));
+						JPanel pane = new JPanel(new BorderLayout());
+						pane.add(ret.getContentPane(), BorderLayout.CENTER);
+						pane.add(option, BorderLayout.SOUTH);
+						ret.setContentPane(pane);
+						return ret;
+					};
+				};
 				fc.setDialogTitle((String) getValue(NAME));
+				fc.setFileFilter(_rtf);
+				fc.setAcceptAllFileFilterUsed(true);
+				fc.setSelectedFile(_file);
 				if (fc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				_file = fc.getSelectedFile();
+				if (_appendExt.getValue() && !_file.toString().toLowerCase().endsWith(".rtf"))
+					_file = new File(_file.toString() + ".rtf");
 				_save.perform();
 			}
 		};
@@ -111,6 +137,8 @@ public class Twiline {
 			public void go() {
 				JFileChooser fc = new JFileChooser(_file);
 				fc.setDialogTitle((String)getValue(NAME));
+				fc.setFileFilter(_rtf);
+				fc.setAcceptAllFileFilterUsed(true);
 				if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				_file = fc.getSelectedFile();
@@ -127,6 +155,8 @@ public class Twiline {
 			public void go() {
 				JFileChooser fc = new JFileChooser();
 				fc.setDialogTitle((String)getValue(NAME));
+				fc.setFileFilter(Player._wav);
+				fc.setAcceptAllFileFilterUsed(true);
 				if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
 					return;
 				try {
@@ -138,6 +168,7 @@ public class Twiline {
 			}
 		};
 
+		private Boolean.Model _appendExt = new Boolean.Model();
 		public final Player.Model _player = new Player.Model();
 		public final Editor.Model _text = new Editor.Model();
 		public File _file;

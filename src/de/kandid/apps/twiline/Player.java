@@ -45,6 +45,7 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.kandid.model.Emitter;
 import de.kandid.ui.Action;
@@ -57,6 +58,8 @@ public class Player {
 		void trackChanged();
 		void positionChanged(long frames);
 	}
+
+	public static final FileNameExtensionFilter _wav = new FileNameExtensionFilter(Messages.get("Player.Filter.wav"), "wav");
 
 	private enum Cmd {Done, Play, Pause}
 
