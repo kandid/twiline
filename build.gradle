@@ -5,7 +5,7 @@ apply plugin: 'maven'
 apply plugin: 'gradle-one-jar'
 
 sourceCompatibility = 1.7
-version = '0.0.4'
+version = '0.0.5'
 group = 'de.kandid'
 def theName = 'twiline'
 
