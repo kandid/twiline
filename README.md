@@ -1,4 +1,4 @@
-Welcome to Twiline [[download_button]]
+Welcome to Twiline
 =========
 
 Twiline tries to make transcriptions of interviews easier. This is done by providing a simple text editor in conjunction with a keyboard controllable player.
