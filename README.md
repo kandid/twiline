@@ -33,3 +33,4 @@ Typing the text is the same as with very simple word processors. Besides the but
 Frequently used phrases may be assigned to the keys *Alt-0* up to *Alt-9* in the *Settings* dialog.
 
 To save your work, press *Ctrl-S*. To make it easy for your OS to get your file recognized as rich text format, you should choose the extension "rtf".
+
